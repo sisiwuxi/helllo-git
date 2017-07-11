@@ -1,0 +1,222 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void main()
+{
+	FILE *fp1, *fp2, *fp3, *fp4;
+	int len = 0;
+	int i;
+
+printf("\n[1] Y U V \n");
+	if((fp1 = fopen("719x479.yuv","rb")) == NULL)
+		printf("eror open1\n"); 
+	if((fp2 = fopen("719x479_Y.yuv","wb")) == NULL)
+		printf("eror open2\n");
+	if((fp3 = fopen("719x479_U.yuv","wb")) == NULL)
+		printf("eror open3\n");
+	if((fp4 = fopen("719x479_V.yuv","wb")) == NULL)
+		printf("eror open4\n");
+
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+
+	for(i = 0; i < len; i++)
+	{
+		if(i % 4 == 1)
+		{
+			fputc(fgetc(fp1), fp4);
+		}
+		else if(i % 4 == 3)
+		{
+			fputc(fgetc(fp1), fp3);
+		}
+		else if(i % 4 == 0 || i % 4 == 2)
+		{
+			fputc(fgetc(fp1), fp2);
+		}
+	}
+	printf("i = %d\n", i);
+	fclose(fp1);
+	fclose(fp2);
+	fclose(fp3);
+	fclose(fp4);
+
+printf("\n[2] 716 Y \n");
+	if((fp1 = fopen("719x479_Y.yuv","rb")) == NULL)
+		printf("eror open1\n");
+	if((fp2 = fopen("716x480_Y.yuv","wb")) == NULL)
+		printf("eror open2\n");
+
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+	for(i = 0; i < 716 * 480; i++)
+	{
+		fputc(fgetc(fp1), fp2);	
+	}
+	fclose(fp1);
+	fclose(fp2);
+
+printf("\n[2] 716 U \n");
+	if((fp1 = fopen("719x479_U.yuv","rb")) == NULL)
+		printf("eror open1\n");
+	if((fp2 = fopen("716x480_U.yuv","wb")) == NULL)
+		printf("eror open2\n");
+
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+	for(i = 0; i < 716 * 480 / 2; i++)
+	{
+		fputc(fgetc(fp1), fp2);	
+	}
+	fclose(fp1);
+	fclose(fp2);
+
+printf("\n[2] 716 V \n");
+	if((fp1 = fopen("719x479_V.yuv","rb")) == NULL)
+		printf("eror open1\n");
+	if((fp2 = fopen("716x480_V.yuv","wb")) == NULL)
+		printf("eror open2\n");
+
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+	for(i = 0; i < 716 * 480 / 2; i++)
+	{
+		fputc(fgetc(fp1), fp2);	
+	}
+	fclose(fp1);
+	fclose(fp2);
+
+printf("\n[3] 720*480 Y\n");
+	if((fp1 = fopen("716x480_Y.yuv","rb")) == NULL)
+		printf("eror open2\n");
+	if((fp2 = fopen("720x480_Y.yuv","wb")) == NULL)
+		printf("eror open3\n");
+	
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+
+	for(i = 0; i < len; i++)
+	{
+		if(!(i % 716) && (i > 0))
+		{
+			fputc(fgetc(fp1), fp2);
+			fputc(0, fp2);
+			fputc(0, fp2);
+			fputc(0, fp2);
+			fputc(0, fp2);
+		}
+		else
+		{
+			fputc(fgetc(fp1), fp2);
+		}
+	}
+	fputc(0, fp2);
+	fputc(0, fp2);
+	fputc(0, fp2);
+	fputc(0, fp2);
+	fclose(fp1);
+	fclose(fp2);
+
+printf("\n[3] 720*480 U\n");
+	if((fp1 = fopen("716x480_U.yuv","rb")) == NULL)
+		printf("eror open2\n");
+	if((fp2 = fopen("720x480_U.yuv","wb")) == NULL)
+		printf("eror open3\n");
+	
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+
+	for(i = 0; i < len; i++)
+	{
+		if(!(i % 716 / 2) && i>0)
+		{
+			fputc(fgetc(fp1), fp2);
+			fputc(0, fp2);
+			fputc(0, fp2);
+		}
+		else
+		{
+			fputc(fgetc(fp1), fp2);
+		}
+	}
+	fputc(0, fp2);
+	fputc(0, fp2);
+	fclose(fp1);
+	fclose(fp2);
+printf("\n[3] 720*480 V\n");
+	if((fp1 = fopen("716x480_V.yuv","rb")) == NULL)
+		printf("eror open2\n");
+	if((fp2 = fopen("720x480_V.yuv","wb")) == NULL)
+		printf("eror open3\n");
+	
+	fseek(fp1, 0, SEEK_END);
+	len = ftell(fp1);
+	printf("len = %d\n", len);
+	fseek(fp1, 0, SEEK_SET);
+
+	for(i = 0; i < len; i++)
+	{
+		if(!(i % 716 / 2) && i>0)
+		{
+			fputc(fgetc(fp1), fp2);
+			fputc(0, fp2);
+			fputc(0, fp2);
+		}
+		else
+		{
+			fputc(fgetc(fp1), fp2);
+		}
+	}
+	fputc(0, fp2);
+	fputc(0, fp2);
+	fclose(fp1);
+	fclose(fp2);
+printf("\n[4] COMPRISION V\n");
+	if((fp1 = fopen("720x480_new.yuv","wb")) == NULL)
+		printf("eror open1\n"); 
+	if((fp2 = fopen("720x480_Y.yuv","rb")) == NULL)
+		printf("eror open2\n");
+	if((fp3 = fopen("720x480_U.yuv","rb")) == NULL)
+		printf("eror open3\n");
+	if((fp4 = fopen("720x480_V.yuv","rb")) == NULL)
+		printf("eror open4\n");
+/*
+	for(i = 0; i < 720 * 480; i++)
+	{
+		fputc(fgetc(fp2), fp1);
+		fputc(fgetc(fp3), fp1);
+		fputc(fgetc(fp2), fp1);
+		fputc(fgetc(fp4), fp1);
+	}
+*/
+
+    while(!feof(fp2))
+	{
+		fputc(fgetc(fp2), fp1);
+	}
+	while(!feof(fp3))
+	{
+		fputc(fgetc(fp3), fp1);
+	}
+	while(!feof(fp4))
+	{
+		fputc(fgetc(fp4), fp1);
+	}
+	fclose(fp1);
+	fclose(fp2);
+	fclose(fp3);
+	fclose(fp4);
+}
