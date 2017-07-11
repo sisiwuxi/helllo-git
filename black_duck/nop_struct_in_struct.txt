@@ -1,0 +1,13 @@
+bh
+creation_time
+last_data_change_time
+last_mft_change_time
+last_access_time
+mft_page
+mrec_lock
+ptask
+vfs_inode
+bhs
+sb
+current
+
