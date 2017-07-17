@@ -24,11 +24,22 @@
 #define GROUP_START_CODE 0x000001B8
 #define B543BIT 0x038
 #define PATH_MAX_NUM 256
+//=================parserTS====================//
+#define PAT_PID (0x0000)
+#define PID_MAX_NUM (20)
+#define INVALID_PID 0xffffffff
 
-# if 1
+
+#if 1
 #define INFO printf
 #else
 #define INFO //
+#endif
+
+#if 0
+#define DEBUG printf
+#else
+#define DEBUG //
 #endif
 
 #define ERR printf
@@ -48,4 +59,6 @@ void MPEG2ToolSetOutputPath(char* output_path);
 char* MPEG2ToolGetOutputPath();
 void MPEG2ToolSetStartTime(char* time);
 int MPEG2ToolGetStartTime();
-float MPEG2ToolGetDuration(FILE *fp);
+float MPEG2ToolGetDuration();
+void MPEG2ToolConcat(char* input1_path, char* input2_path, char* output_path);
+

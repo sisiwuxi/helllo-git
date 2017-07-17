@@ -9,13 +9,13 @@ ARCH :=
 GCC := gcc
 CFLAGS:=-c -Wall -O -g
 STRIP := strip
-SRC := mpeg2tool.c common.c abend.c
-INC := $(shell pwd)
+SRC := mpeg2tool.c common.c abend.c parseTS.c
+INC := $(shell pwd)/include
 TARGET := mpeg2tool
 VER := $(shell date)
 
 version:
-	@rm version.h
+	@rm ./include/version.h
 	@echo "/************************************************************/" > version.h
 	@echo "/* Author : sisi.wu                                         */" >> version.h
 	@echo "/* Date   : 2017/7/12                                       */" >> version.h
@@ -26,7 +26,7 @@ version:
 	@echo char version[] = '"'$(VER)'"'';' >> version.h
 	@echo "#endif" >> version.h
 
-OBJECTS:=mpeg2tool.o common.o abend.o
+OBJECTS:=mpeg2tool.o common.o abend.o parseTS.o
 
 all : $(OBJECTS)
 	$(GCC) -o $(TARGET) $(OBJECTS)
