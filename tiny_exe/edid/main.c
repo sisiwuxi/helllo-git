@@ -1,7 +1,6 @@
 /************************************************************/
 /* Author : sisi.wu                                         */
 /* Date   : 2016/11/22                                       */
-/* Email  : pace.pi@mstarsemi.com                           */
 /************************************************************/
 #include "stdio.h"
 #include "edid.h"
@@ -12,7 +11,7 @@ void show_help()
     printf("-i input_path -o output_path\n");
     
     printf("\n\n");
-    printf("If you meet a BUG or have some good ideas , send Email to sisi.wu@mstarsemi.com\n");
+    printf("If you meet a BUG or have some good ideas , send Email to sisiwuxi@hotmail.com\n");
     printf("\n\n");
 
 }

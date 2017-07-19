@@ -1,7 +1,6 @@
 #####################################################
 # Author : sisi.wu                                  #
 # Date   : 2017/7/12                                #
-# Email  : sisi.wu@mstarsemi.com                    #
 #####################################################
 
 #ARCH := arm-none-linux-gnueabi-
@@ -19,7 +18,6 @@ version:
 	@echo "/************************************************************/" > version.h
 	@echo "/* Author : sisi.wu                                         */" >> version.h
 	@echo "/* Date   : 2017/7/12                                       */" >> version.h
-	@echo "/* Email  : sisi.wu@mstarsemi.com                           */" >> version.h
 	@echo "/************************************************************/" >> version.h
 	@echo "#ifndef _VERSION_H_" >> version.h
 	@echo "#define _VERSION_H_" >> version.h

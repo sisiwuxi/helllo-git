@@ -1,7 +1,6 @@
 /************************************************************/
 /* Author : sisi.wu                                         */
 /* Date   : 2017/7/12                                       */
-/* Email  : sisi.wu@mstarsemi.com                           */
 /************************************************************/
 
 #include <stdio.h>
@@ -31,7 +30,7 @@ void show_help()
     INFO("-T : Run auto test\n");
     INFO("-h : show help\n");	
     INFO("\n\n");
-    INFO("If you meet a BUG or have some good ideas , send Email to sisi.wu@mstarsemi.com\n");
+    INFO("If you meet a BUG or have some good ideas , send Email to sisiwuxi@hotmail.com\n");
     INFO("\n\n");
 }
 
