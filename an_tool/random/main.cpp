@@ -6,7 +6,6 @@
 #include <binder/ProcessState.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <time.h>
 #include <MsOS.h>
 #include <MsTypes.h>
 #include <MsCommon.h>
@@ -24,8 +23,6 @@ int main(int argc, char* argv[])
     char output_name[256]= {0};
     MS_U32 random = 0;
     FILE *fp_rng = NULL;
-    struct tm *ptr;
-    time_t It;
 
     if(1==argc)
     {
@@ -53,10 +50,6 @@ int main(int argc, char* argv[])
         ALOGD("\nfp_rng error open\n");
         goto FAIL;
     }
-    It = time(NULL);
-    ptr = localtime(&It);
-    printf("\n====start_time====%d:%d:%d\n",ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
-    //while(i < ((output_len*1024*1024)/4))
     while(i < (int)(output_len/4))		
     {
         random = MDrv_CA_Random();
@@ -69,8 +62,6 @@ int main(int argc, char* argv[])
 FAIL:
     if(fp_rng!=NULL)
         fclose(fp_rng);
-    It = time(NULL);
-    ptr = localtime(&It);
-    printf("\n====stop_time====%d:%d:%d\n",ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
+    printf("\n====stop_time====\n");
     return 0;
 }
