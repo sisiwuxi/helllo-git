@@ -5,11 +5,10 @@ import athletemodel
 import yate
 import sys
 
-athletes = athletemodel.get_from_store()
 form_data = cgi.FieldStorage()
 athlete_name = form_data['which_athlete'].value
-
+athlete=athletemodel.get_athlete_from_id(athlete_id)
 print(yate.start_response('application/json'))
 #print(json.dumps(athletes[athlete_name]))
-print(json.dumps(athletes[athlete_name]), file=sys.stderr)
+print(json.dumps(athletes[athlete_name]).as_dict, file=sys.stderr)
 
