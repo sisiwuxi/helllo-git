@@ -57,5 +57,5 @@ def do_form(name, the_inputs, method="POST", text="Submit"):
 	form = Template(form_text)
 	return(form.substitute(cgi_name=name, http_method=method, list_of_inputs=inputs, submit_text=text))
 
-def radio_button_id(rb_name, rb_name, rb_id):
-	return('<input type="radio" name="' + rb_name _ '"value="' + str(rb_id) + '">' + rb_value + '<br />')
+def radio_button_id(rb_name, rb_value, rb_id):
+	return('<input type="radio" name="' + rb_name + '"value="' + str(rb_id) + '" >' + rb_value + '<br />')
