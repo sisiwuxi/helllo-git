@@ -23,7 +23,7 @@ if resp is not None:
 	resp=app.dialogGetInput(timing_title,timing_msg).result
 	if resp is not None:
 		new_time=resp
-		send_to_server(web_server+add_time_cgi,{'TImingValue':new_time})
+		send_to_server(web_server+add_time_cgi,{'TimingValue':new_time})
 
 
 
