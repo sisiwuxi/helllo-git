@@ -23,9 +23,9 @@ void main()
     int H4temp;
     int L4temp;
     /*
-    	if((fp1 = fopen("Mstar_strings.bin","rb")) == NULL)
+    	if((fp1 = fopen("M_strings.bin","rb")) == NULL)
     		printf("eror fp1 open\n");
-    	if((fp2 = fopen("Mstar_strings.inc","wb")) == NULL)
+    	if((fp2 = fopen("M_strings.inc","wb")) == NULL)
     		printf("eror fp2 open\n");
     */
     if((fp1 = fopen("vdplayer.bin","rb")) == NULL)

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#01000000</color>
+    <color name="ProgNumColor">#CCF1F1F1</color>
+    <color name="tViewColor">#FF0080</color>
+    <color name="tProgListColor">#FFFFFF</color>
+    <color name="blue">#5A0099ff</color>
+    <color name="transBlack">#20000000</color>
+    <color name="red">#FF0000</color>
+    <color name="tEditColor">#80F1F1F1</color>
+    <color name="scanActivityColor">#40F1F1F1</color>
+
+</resources>

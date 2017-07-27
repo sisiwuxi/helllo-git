@@ -1077,8 +1077,8 @@ int main(int argc, char *argv[])
 
 int readSN(char* data) 
 {
-     property_set("mstar.SN", "101800012012070600000001");  //TEST
-     property_get("mstar.SN", data, NULL);
+     property_set("M.SN", "101800012012070600000001");  //TEST
+     property_get("M.SN", data, NULL);
      return 0;
 }
 

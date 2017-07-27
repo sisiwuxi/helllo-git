@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">中国电信</string>
+    <string name="TextView1">开始云端认证，请等待...</string>
+    <string name="ButtonStart">开始</string>    
+    
+</resources>

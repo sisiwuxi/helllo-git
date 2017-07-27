@@ -28,17 +28,17 @@ struct NOPRO_ENTITY temp_record = {0};
 
 #if 1
 char Parser_File[][MAX_STR_LEN] = {
-    "mstar_h1.h","mstar_h2.h","mstar_h3.h","mstar_h4.h","mstar_h5.h","mstar_h6.h","mstar_h7.h","mstar_h8.h","mstar_h9.h",
-    "mstar_h10.h","mstar_h11.h","mstar_h12.h","mstar_h13.h","mstar_h14.h","mstar_h15.h","mstar_h16.h","mstar_h17.h",
-    "mstar_h18.h","mstar_h19.h","mstar_h20.h","mstar_h21.h","mstar_h22.h","mstar_h23.h","mstar_h24.h","mstar_h25.h",
-    "mstar_h26.h","mstar_h27.h",
-    "mstar_h1h.h","mstar_h10h.h","mstar_h12h.h","mstar_h14h.h","mstar_h19h.h","mstar_h21h.h","mstar_h25h.h","mstar_h27h.h",
-    "mstar_c1h.h","mstar_c2h.h","mstar_c3h.h","mstar_c4h.h","mstar_c5h.h","mstar_c6h.h","mstar_c7h.h","mstar_c8h.h",
-    "mstar_c9h.h","mstar_c10h.h","mstar_c11h.h","mstar_c12h.h","mstar_c13h.h","mstar_c14h.h","mstar_c15h.h","mstar_c16h.h",
-    "mstar_c17h.h","mstar_c18h.h","mstar_c19h.h","mstar_c20h.h","mstar_c21h.h","mstar_c22h.h","mstar_c23h.h",
-    "mstar_c1.c","mstar_c2.c","mstar_c3.c","mstar_c4.c","mstar_c5.c","mstar_c6.c","mstar_c7.c","mstar_c8.c",
-    "mstar_c9.c","mstar_c10.c","mstar_c11.c","mstar_c12.c","mstar_c13.c","mstar_c14.c","mstar_c15.c","mstar_c16.c",
-    "mstar_c17.c","mstar_c18.c","mstar_c19.c","mstar_c20.c","mstar_c21.c","mstar_c22.c","mstar_c23.c",
+    "M_h1.h","M_h2.h","M_h3.h","M_h4.h","M_h5.h","M_h6.h","M_h7.h","M_h8.h","M_h9.h",
+    "M_h10.h","M_h11.h","M_h12.h","M_h13.h","M_h14.h","M_h15.h","M_h16.h","M_h17.h",
+    "M_h18.h","M_h19.h","M_h20.h","M_h21.h","M_h22.h","M_h23.h","M_h24.h","M_h25.h",
+    "M_h26.h","M_h27.h",
+    "M_h1h.h","M_h10h.h","M_h12h.h","M_h14h.h","M_h19h.h","M_h21h.h","M_h25h.h","M_h27h.h",
+    "M_c1h.h","M_c2h.h","M_c3h.h","M_c4h.h","M_c5h.h","M_c6h.h","M_c7h.h","M_c8h.h",
+    "M_c9h.h","M_c10h.h","M_c11h.h","M_c12h.h","M_c13h.h","M_c14h.h","M_c15h.h","M_c16h.h",
+    "M_c17h.h","M_c18h.h","M_c19h.h","M_c20h.h","M_c21h.h","M_c22h.h","M_c23h.h",
+    "M_c1.c","M_c2.c","M_c3.c","M_c4.c","M_c5.c","M_c6.c","M_c7.c","M_c8.c",
+    "M_c9.c","M_c10.c","M_c11.c","M_c12.c","M_c13.c","M_c14.c","M_c15.c","M_c16.c",
+    "M_c17.c","M_c18.c","M_c19.c","M_c20.c","M_c21.c","M_c22.c","M_c23.c",
 };
 #else
 char Parser_File[][MAX_STR_LEN] = {

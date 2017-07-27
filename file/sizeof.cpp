@@ -25,7 +25,7 @@ int main() {
     int i = 0;
     string *p=new string[2];
     p[0]= "Hello ";
-    p[1]= "MStar ";
+    p[1]= "M ";
     cout << sizeof(A) << endl;
     cout << sizeof(B) << endl;
     cout << sizeof(C) << endl;
@@ -39,10 +39,10 @@ int main() {
 int main(int argc,char* argv[])
 {
     int i = 0;
-    string strArr[]= { "MStar ", "Shanghai ", "STBFAE "};
+    string strArr[]= { "M ", "Shanghai ", "STBFAE "};
     string *p=new string[2];
     p[0]= "Hello ";
-    p[1]= "MStar ";
+    p[1]= "M ";
     cout <<sizeof(strArr) <<endl;
     cout <<sizeof(p) <<endl;
     cout <<sizeof(string) <<endl;

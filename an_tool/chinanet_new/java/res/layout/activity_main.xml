@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:theme="@android:style/Theme.NoTitleBar"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+		android:id="@+id/ID_Note_Certification_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="51dp"
+		android:textColor="@color/transBlack"
+		android:textSize="60sp"
+        android:text="@+string/TextView1" />	
+
+	<EditText
+    android:id="@+id/edit_text"    
+    android:layout_width="fill_parent"   
+    android:layout_height="wrap_content"  
+	android:maxLength="40"  
+    android:hint="请输入服务器IP地址..."
+	android:phoneNumber="true"
+	android:numeric="integer"
+    android:imeOptions="actionDone"/>  
+		
+</RelativeLayout>
