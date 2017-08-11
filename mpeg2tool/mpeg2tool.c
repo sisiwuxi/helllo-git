@@ -26,9 +26,10 @@ void show_help()
     INFO("-a : The duration of abend you want to make, unit:ms\n");
     INFO("-c : concat two TS into one TS; Ex:mpeg2tool -c input1.ts input2.ts output.ts\n");
     INFO("-d : The duration of input TS file, unit:s; Ex:mpeg2tool -i input.ts -d\n");
-    INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p\n");	
+    INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p\n");
+    INFO("-s : Add SEI for HLG / BT2020; Ex:mpeg2tool -i input.ts -o output.ts -s\n");
     INFO("-T : Run auto test\n");
-    INFO("-h : show help\n");	
+    INFO("-h : show help\n");
     INFO("\n\n");
     INFO("If you meet a BUG or have some good ideas , send Email to sisiwuxi@hotmail.com\n");
     INFO("\n\n");
@@ -37,7 +38,7 @@ void show_help()
 void test_all()
 {
     INFO("\n=[test_abend]====mpeg2tool -i input.ts -o input_abend.ts -t 00:00:03 -a 400=============\n");
-    MPEG2ToolSetInputPath("input.ts");	
+    MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolSetOutputPath("input_abend.ts");
     MPEG2ToolSetStartTime("00:00:03");
     MPEG2AbendStream("400");
@@ -46,9 +47,13 @@ void test_all()
     MPEG2ToolGetDuration();
     INFO("\n=[test_duration]==================mpeg2tool -i input.ts -p========================\n");
     MPEG2ToolSetInputPath("input.ts");
-    MPEG2ToolGetPIDs();	
+    MPEG2ToolGetPIDs();
     INFO("\n=[test_concat]==================./mpeg2tool -c input_abend.ts input2.ts concat.ts========================\n");
     MPEG2ToolConcat("input_abend.ts", "input2.ts", "concat.ts");
+    INFO("\n=[test_concat]==================./mpeg2tool -i input.ts -o output.ts -s========================\n");
+    MPEG2ToolSetInputPath("input.ts");
+    MPEG2ToolSetOutputPath("output.ts");
+    MPEG2AddSEI();
 }
 
 int main(int argc , char* argv[])
@@ -70,7 +75,7 @@ int main(int argc , char* argv[])
                 CHECK_ARGS(i, 1, argc);
                 MPEG2ToolSetInputPath(argv[++i]);
                 break;
-		
+
             case 'o' :
                 CHECK_ARGS(i, 1, argc);
                 MPEG2ToolSetOutputPath(argv[++i]);
@@ -95,7 +100,7 @@ int main(int argc , char* argv[])
                 //CHECK_ARGS(i, 1, argc);
                 MPEG2ToolGetDuration();
                 break;
-				
+
             case 'p' :
                 //CHECK_ARGS(i, 1, argc);
                 MPEG2ToolGetPIDs();
@@ -103,6 +108,12 @@ int main(int argc , char* argv[])
 
             case 'v' :
                 show_version();
+                break;
+
+            case 's' ://Add SEI for HLG / BT.2020
+                printf("\n[%d,%d]\n", i, argc);
+                CHECK_ARGS(i, 0, argc);
+                MPEG2AddSEI();
                 break;
 
             case 'T' :

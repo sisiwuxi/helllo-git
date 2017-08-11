@@ -15,14 +15,15 @@ VER := $(shell date)
 
 version:
 	@rm ./include/version.h
-	@echo "/************************************************************/" > version.h
-	@echo "/* Author : sisi.wu                                         */" >> version.h
-	@echo "/* Date   : 2017/7/12                                       */" >> version.h
-	@echo "/************************************************************/" >> version.h
-	@echo "#ifndef _VERSION_H_" >> version.h
-	@echo "#define _VERSION_H_" >> version.h
-	@echo char version[] = '"'$(VER)'"'';' >> version.h
-	@echo "#endif" >> version.h
+	@echo "/************************************************************/" > ./include/version.h
+	@echo "/* Author : sisi.wu                                         */" >> ./include/version.h
+	@echo "/* Date   : 2017/7/12                                       */" >> ./include/version.h
+	@echo "/* Email   : sisiwuxi@hotmail.com                           */" >> ./include/version.h
+	@echo "/************************************************************/" >> ./include/version.h
+	@echo "#ifndef _VERSION_H_" >> ./include/version.h
+	@echo "#define _VERSION_H_" >> ./include/version.h
+	@echo char version[] = '"'$(VER)'"'';' >> ./include/version.h
+	@echo "#endif" >> ./include/version.h
 
 OBJECTS:=mpeg2tool.o common.o abend.o parseTS.o
 

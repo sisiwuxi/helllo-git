@@ -32,13 +32,13 @@
 #if 1
 #define INFO printf
 #else
-#define INFO //
+#define INFO //printf
 #endif
 
 #if 0
 #define DEBUG printf
 #else
-#define DEBUG //
+#define DEBUG //printf
 #endif
 
 #define ERR printf
