@@ -1,7 +1,7 @@
 #include  <stdio.h>
 #include  <stdlib.h>
 
-#define   WIDTH   718//720
+#define   WIDTH   720
 #define   HEIGHT  576
 
 #define   COLORy  128
@@ -14,7 +14,7 @@ void  main(void)
 	unsigned char  c1, c2, c3;
 	int   i, j;
 
-	outFILE = fopen("E:\\c\\ckxyuv\\convertYUV\\test.yuv", "wb");
+	outFILE = fopen("test_720_576.yuv", "wb");
 	if (NULL == outFILE) 
 	{
 		printf("Can not open to write.\n");
@@ -22,9 +22,6 @@ void  main(void)
 	}
 
 	printf("Process OK.\n");
-	c1 = COLORy;
-	c2 = COLORu;
-	c3 = COLORv;
 	for (i = 0; i < HEIGHT; ++i)
 	{
 		for (j = 0; j < WIDTH / 2; ++j){

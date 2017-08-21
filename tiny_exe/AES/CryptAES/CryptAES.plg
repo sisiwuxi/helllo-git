@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: CryptAES - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/CryptAES.res" /d "_DEBUG" /d "_AFXDLL" "E:\wx\thesis\pvr\CryptAES\CryptAES.rc"" 
+Creating temporary file "C:\DOCUME~1\SISI~1.DOY\LOCALS~1\Temp\RSPC6.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/CryptAES.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\wx\thesis\pvr\CryptAES\CryptAES.cpp"
+"E:\wx\thesis\pvr\CryptAES\CryptAESDlg.cpp"
+"E:\wx\thesis\pvr\CryptAES\rijndael.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\SISI~1.DOY\LOCALS~1\Temp\RSPC6.tmp" 
+Creating temporary file "C:\DOCUME~1\SISI~1.DOY\LOCALS~1\Temp\RSPC7.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/CryptAES.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\wx\thesis\pvr\CryptAES\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\SISI~1.DOY\LOCALS~1\Temp\RSPC7.tmp" 
+Creating command line "link.exe /nologo /subsystem:windows /incremental:yes /pdb:"Debug/CryptAES.pdb" /debug /machine:I386 /out:"Debug/CryptAES.exe" /pdbtype:sept  .\Debug\CryptAES.obj .\Debug\CryptAESDlg.obj .\Debug\rijndael.obj .\Debug\StdAfx.obj .\Debug\CryptAES.res "
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+CryptAES.cpp
+CryptAESDlg.cpp
+rijndael.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+CryptAES.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
