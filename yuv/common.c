@@ -43,13 +43,76 @@ char* YUVToolGetOutputPath()
     return YUVTool.output_path;
 }
 
+void YUVToolConvert(char* Width, char* Height, char* Line_Num, char* Small_Line)
+{
+    int width = 0,  height = 0, LineNum = 0,  SmallLine = 0;
+    char input_path[PATH_MAX_NUM] = {0};
+    char output_path[PATH_MAX_NUM] = {0};
+    FILE    *inFILE = NULL,  *outFILE = NULL;
+    unsigned char  c = 128;
+    int i, j, k, offset = 0;
+
+    width = atoi(Width);
+    height = atoi(Height);
+    LineNum = atoi(Line_Num);
+    SmallLine = atoi(Small_Line);
+
+    strcpy(input_path, YUVToolGetInputPath());
+
+    if(0==strlen(input_path))
+    {
+        sprintf(input_path, "./yuv_file/y_%dx%d.bin", width, height);
+    }
+    sprintf(output_path, "y_%dx%d.yuv", width, height);
+    inFILE = fopen(input_path, "rb");
+    if(!inFILE)
+    {
+        ERR("\nerror open inFILE=%s\n", input_path);
+        goto Err;
+    }
+    outFILE = fopen(output_path, "wb");
+    if(!outFILE)
+    {
+        ERR("\nerror open outFILE=%s\n", output_path);
+        goto Err;
+    }
+    for (i = 0; i < height; ++i)
+    {
+        for (j = 0; j <(width/SmallLine) ; ++j)
+        {
+            offset = (i/LineNum)*(width*LineNum) + j*(LineNum*SmallLine) + (i%LineNum)*SmallLine;
+            fseek(inFILE, offset, SEEK_SET);
+            for(k=0; k<SmallLine; k++)
+            {
+                fputc(fgetc(inFILE), outFILE);
+            }
+        }
+    }
+    for (i = 0; i < height; ++i)
+    {
+        for (j = 0; j < (width/2); ++j)
+        {
+            fputc(c, outFILE);
+        }
+    }
+Err:
+    if(!inFILE)
+    {
+        fclose(inFILE);
+    }
+    if(!outFILE)
+    {
+        fclose(outFILE);
+    }
+}
+
 void YUVToolNewFile(char* ColorType, char* Width, char* Height, char* ColorY, char* ColorU, char* ColorV)
 {
     int UV_len = 0, width = 0,  height = 0;
     char output_path[PATH_MAX_NUM] = {0};
     FILE *outFILE=NULL;
-    int i, j;	
-    int color_y = COLORy, color_u = COLORu, color_v = COLORv;	
+    int i, j;
+    int color_y = COLORy, color_u = COLORu, color_v = COLORv;
 
     width = atoi(Width);
     height = atoi(Height);
@@ -80,11 +143,11 @@ void YUVToolNewFile(char* ColorType, char* Width, char* Height, char* ColorY, ch
     }
 
 #if 0
-0	0	0  --green
-128 128 128--gray
-255 128 128--white
-0     128 128--black
-255 255 255--rose
+    0	0	0  --green
+    128 128 128--gray
+    255 128 128--white
+    0     128 128--black
+    255 255 255--rose
 #endif
     color_y = atoi(ColorY);
     color_u = atoi(ColorU);
@@ -92,24 +155,24 @@ void YUVToolNewFile(char* ColorType, char* Width, char* Height, char* ColorY, ch
 
     for (i = 0; i < height; ++i)
     {
-        for (j = 0; j < width; ++j) 
-	 {
+        for (j = 0; j < width; ++j)
+        {
             fputc(color_y, outFILE);
         }
     }
-    printf("\n UV_len =%d \n", UV_len);	
+    printf("\n UV_len =%d \n", UV_len);
     for (i = 0; i < UV_len/2; ++i)
     {
-        fputc(color_u, outFILE);		
+        fputc(color_u, outFILE);
     }
     for (i = 0; i < UV_len/2; ++i)
     {
-        fputc(color_v, outFILE);		
-    }	
+        fputc(color_v, outFILE);
+    }
     if (outFILE)
     {
         fclose(outFILE);
-	 outFILE=NULL;
+        outFILE=NULL;
     }
 }
 

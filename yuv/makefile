@@ -35,7 +35,7 @@ $(OBJECTS):%.o:%.c
 
 .PHONY:clean
 clean: 
-	rm -rf $(OBJECTS) $(TARGET) 
+	rm -rf $(OBJECTS) $(TARGET) *.yuv
 
 
 

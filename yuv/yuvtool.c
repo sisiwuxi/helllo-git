@@ -26,6 +26,8 @@ void show_help()
 void test_all()
 {
     INFO("\n=[new]====yuvtool  -n YUV420 1920 1080=============\n");
+    INFO("\n=[convert]====yuvtool -i y.bin -c 1920 1080 32 16=============\n");
+	
 }
 
 int main(int argc , char* argv[])
@@ -54,7 +56,11 @@ int main(int argc , char* argv[])
             case 'n' :
                 YUVToolNewFile(argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
                 break;
-
+				
+            case 'c' :
+                YUVToolConvert(argv[2], argv[3], argv[4], argv[5]);
+                break;
+				
             case 'v' :
                 show_version();
                 break;
