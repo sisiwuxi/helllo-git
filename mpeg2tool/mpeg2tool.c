@@ -26,7 +26,7 @@ void show_help()
     INFO("-a : The duration of abend you want to make, unit:ms\n");
     INFO("-c : concat two TS into one TS; Ex:mpeg2tool -c input1.ts input2.ts output.ts\n");
     INFO("-d : The duration of input TS file, unit:s; Ex:mpeg2tool -i input.ts -d\n");
-    INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p\n");
+    INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p > 1.txt\n");
     INFO("-s : Add SEI for HLG / BT2020; Ex:mpeg2tool -i input.ts -o output.ts -s\n");
     INFO("-T : Run auto test\n");
     INFO("-h : show help\n");
@@ -37,11 +37,11 @@ void show_help()
 
 void test_all()
 {
-    INFO("\n=[test_abend]====mpeg2tool -i input.ts -o input_abend.ts -t 00:00:03 -a 400=============\n");
+    INFO("\n=[test_abend]====mpeg2tool -i input.ts -o input_abend.ts -t 00:00:03 -a 400 0=============\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolSetOutputPath("input_abend.ts");
     MPEG2ToolSetStartTime("00:00:03");
-    MPEG2AbendStream("400");
+    MPEG2AbendStream("400", "0");
     INFO("\n=[test_duration]==================mpeg2tool -i input.ts -d========================\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolGetDuration();
@@ -75,7 +75,7 @@ int main(int argc , char* argv[])
                 CHECK_ARGS(i, 1, argc);
                 MPEG2ToolSetInputPath(argv[++i]);
                 break;
-
+				
             case 'o' :
                 CHECK_ARGS(i, 1, argc);
                 MPEG2ToolSetOutputPath(argv[++i]);
@@ -87,13 +87,13 @@ int main(int argc , char* argv[])
                 break;
 
             case 'a' :
-                CHECK_ARGS(i, 1, argc);
-                MPEG2AbendStream(argv[++i]);
+                CHECK_ARGS(i, 2, argc);
+                MPEG2AbendStream(argv[i+1], argv[i+2]);
                 break;
 
             case 'c' :
                 CHECK_ARGS(i, 3, argc);
-                MPEG2ToolConcat(argv[2], argv[3], argv[4]);
+                MPEG2ToolConcat(argv[i+1], argv[i+2], argv[i+3]);
                 break;
 
             case 'd' :

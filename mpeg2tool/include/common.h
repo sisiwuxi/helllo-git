@@ -6,7 +6,9 @@
 #define BIT6 0x040
 #define BIT5 0x020
 #define BIT123 0x0E
+#define BIT345 0x38
 #define BIT4567 0xF0
+#define BIT123456 0x7E
 #define B5BIT 0x01f
 #define B76BIT 0x0c0
 #define B54BIT 0x030
@@ -14,15 +16,25 @@
 #define B12345BIT 0x3e
 #define B0BIT 0x01
 #define B8BIT ((~(~0))|0xff)
-#define PICTURE_START_CODE 0x00000100
+//=================MPEG2====================//
+#define VIDEO_SEQUENCE_CODE 0x000001e0
+#define USERDATA_HEADER_CODE 0x000001b2
+#define SEQUENCE_HEADER_CODE 0x000001b3
+#define EXTENSION_HEADER_CODE 0x000001b5
+#define SEQUENCE_END_CODE 0x000001b7
+#define GOP_HEADER_CODE 0x000001b8
+#define PICTURE_HEADER_CODE 0x00000100
 #define SLICE_START_CODE 0x00000101
 #define SLICE_END_CODE 0x000001AF
 #define PES_START_CODE 0x000001BC
 #define PES_END_CODE 0x000001FF
-#define SEQUENCE_HEADER_CODE 0x000001B3
 #define GROUP_START_CODE 0x000001B8
 #define B543BIT 0x038
 #define PATH_MAX_NUM 256
+#define SLICE_HEADER_LEN 16
+//=================HEVC====================//
+#define NAL_START_CODE 0x000001
+
 //=================parserTS====================//
 #define PAT_PID (0x0000)
 #define PID_MAX_NUM (20)

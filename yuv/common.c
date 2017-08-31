@@ -43,7 +43,7 @@ char* YUVToolGetOutputPath()
     return YUVTool.output_path;
 }
 
-void YUVToolConvert(char* Width, char* Height, char* Line_Num, char* Small_Line)
+void YUVTooldeTile(char* Width, char* Height, char* Line_Num, char* Small_Line)
 {
     int width = 0,  height = 0, LineNum = 0,  SmallLine = 0;
     char input_path[PATH_MAX_NUM] = {0};
@@ -56,6 +56,7 @@ void YUVToolConvert(char* Width, char* Height, char* Line_Num, char* Small_Line)
     height = atoi(Height);
     LineNum = atoi(Line_Num);
     SmallLine = atoi(Small_Line);
+    DEBUG("[%d %d %d %d]", width, height, LineNum, SmallLine);
 
     strcpy(input_path, YUVToolGetInputPath());
 

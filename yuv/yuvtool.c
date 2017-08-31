@@ -26,7 +26,7 @@ void show_help()
 void test_all()
 {
     INFO("\n=[new]====yuvtool  -n YUV420 1920 1080=============\n");
-    INFO("\n=[convert]====yuvtool -i y.bin -c 1920 1080 32 16=============\n");
+    INFO("\n=[deTile]====yuvtool -i y.bin -c 3840 2160 16 32=============\n");
 	
 }
 
@@ -58,7 +58,7 @@ int main(int argc , char* argv[])
                 break;
 				
             case 'c' :
-                YUVToolConvert(argv[2], argv[3], argv[4], argv[5]);
+                YUVTooldeTile(argv[i+1], argv[i+2], argv[i+3], argv[i+4]);
                 break;
 				
             case 'v' :

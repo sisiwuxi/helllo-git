@@ -9,7 +9,7 @@
 #define INFO //printf
 #endif
 
-#if 0
+#if 1
 #define DEBUG printf
 #else
 #define DEBUG //printf
@@ -35,5 +35,5 @@ char* YUVToolGetInputPath();
 void YUVToolSetOutputPath(char* output_path);
 char* YUVToolGetOutputPath();
 void YUVToolNewFile(char* ColorType, char* Width, char* Height, char* ColorY, char* ColorU, char* ColorV);
-
+void YUVTooldeTile(char* Width, char* Height, char* Line_Num, char* Small_Line);
 

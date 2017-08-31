@@ -143,6 +143,63 @@ void PrintPIDs()
     //===============PMT->video&audio===========//
 }
 
+
+
+void ParseSequenceHeader(long int offset, char* parseData)
+{
+	int i = 0;
+	INFO("\nSequenceHeader=0x%lx", offset);	
+	for(i = 0; i < strlen(parseData); i++)
+	{
+		INFO(" 0x%x ", parseData[i]);
+	}
+	return;
+}
+
+void ParseExtensionHeader(long int offset, char* parseData)
+{
+	int i = 0;
+	INFO("\nExtensionHeader=0x%lx", offset);	
+	for(i = 0; i < strlen(parseData); i++)
+	{
+		INFO(" 0x%x ", parseData[i]);
+	}
+	return;
+}
+
+void ParsePictureHeader(long int offset, char* parseData)
+{
+	int i = 0;
+	INFO("\nPictureHeader=0x%lx", offset);	
+	for(i = 0; i < strlen(parseData); i++)
+	{
+		INFO(" 0x%x ", parseData[i]);
+	}
+	return;
+}
+
+void ParseGOPHeader(long int offset, char* parseData)
+{
+	int i = 0;
+	INFO("\nGOPHeader=0x%lx", offset);	
+	for(i = 0; i < strlen(parseData); i++)
+	{
+		INFO(" 0x%x ", parseData[i]);
+	}
+	return;
+}
+
+void ParseSliceHeader(long int offset, char* parseData)
+{
+	int i = 0;
+	INFO("\nSliceHeader=0x%lx ", offset);	
+	for(i = 0; i < SLICE_HEADER_LEN; i++)
+	{
+		INFO(" 0x%x ", parseData[i]);
+	}
+	return;
+}
+
 void MPEG2ToolGetPIDs()
 {
     FILE *fp1;
@@ -151,6 +208,7 @@ void MPEG2ToolGetPIDs()
         ERR("\nfp1 error open\n");
         goto FINISH;
     }
+//=================Collect_pid==================//
     int i = 0, PID = 0;
     int temp, temp_ts_packet[188];
     //int transport_error_indicator = 0, payload_unit_start_indicator = 0, transport_priority = 0;
@@ -177,7 +235,92 @@ void MPEG2ToolGetPIDs()
         }
     }
     PrintPIDs();
+//=================Collect_header&offset==================//
+#if 1
+    INFO("\n============Collect_HEVC_header===============\n");
 
+    int StartCode = 0, NALType = 0;
+    fseek(fp1, 0, SEEK_SET);
+    while(!feof(fp1))
+    {
+        temp = fgetc(fp1) & B8BIT;
+        if(temp == 0x47)
+        {
+            temp_ts_packet[0] = temp;
+            for(i=1; i<188; i++)
+                temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
+            for(i=0; i<188; i++)
+            {
+                StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
+                if(NAL_START_CODE == StartCode)
+                {
+			NALType = (temp_ts_packet[i+4] & BIT123456)>>1;
+			if(NALType>=16 && NALType<=23)
+			    INFO("  [%d-%d] ", NALType, ftell(fp1));			
+                }
+            }
+        }
+    }
+#endif
+
+#if 0
+    INFO("\n============Collect_mpeg2_header===============\n");
+
+    int StartCode = 0, Picture_coding_type = 0, video_format = 0;
+    char SequenceHeader[12+1] = {0}, ExtensionHeader[22 + 1] = {0}, GOPHeader[8+1]={0}, PictureHeader[8+1]={0}, SliceHeader[SLICE_HEADER_LEN+1]={0};
+    fseek(fp1, 0, SEEK_SET);
+    while(!feof(fp1))
+    {
+        temp = fgetc(fp1) & B8BIT;
+        if(temp == 0x47)
+        {
+            temp_ts_packet[0] = temp;
+            for(i=1; i<188; i++)
+                temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
+            for(i=0; i<188; i++)
+            {
+                StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
+                if((StartCode>=SLICE_START_CODE) && (StartCode<=SLICE_END_CODE))
+                {
+		      strncpy(SliceHeader, temp_ts_packet+i+4, SLICE_HEADER_LEN*sizeof(char));
+		      ParseSliceHeader(ftell(fp1), SliceHeader);						
+                }
+#if 0				
+                switch(StartCode)
+                {
+                case VIDEO_SEQUENCE_CODE:
+		      strncpy(SequenceHeader, temp_ts_packet[i+4], 12*sizeof(char));
+		      ParseSequenceHeader(ftell(fp1), SequenceHeader);	
+                    break;
+                case SEQUENCE_HEADER_CODE:
+                    INFO("\nSequenceHeader=[0x%x, 0x%lx]", (StartCode & B8BIT), ftell(fp1));
+                    break;
+                case USERDATA_HEADER_CODE:	
+                    INFO("\nUserdataHeader=[0x%x, 0x%lx]", (StartCode & B8BIT), ftell(fp1));					
+                    break;					
+                case EXTENSION_HEADER_CODE:
+		      strncpy(ExtensionHeader, temp_ts_packet[i+4], 22*sizeof(char));
+		      ParseExtensionHeader(ftell(fp1), ExtensionHeader);	
+                    break;						
+                case SEQUENCE_END_CODE:
+                    INFO("\nSequenceEnd=[0x%x, 0x%lx]", (StartCode & B8BIT), ftell(fp1));
+                    break;
+                case GOP_HEADER_CODE:
+		      strncpy(GOPHeader, temp_ts_packet[i+4], 8*sizeof(char));
+		      ParseGOPHeader(ftell(fp1), GOPHeader);	
+                    break;
+                case PICTURE_HEADER_CODE:
+		      strncpy(PictureHeader, temp_ts_packet[i+4], 8*sizeof(char));
+		      ParsePictureHeader(ftell(fp1), PictureHeader);	
+                    break;
+                default:
+                    break;
+                }
+#endif				
+            }
+        }
+    }
+#endif
 FINISH:
     if(fp1!=NULL)
         fclose(fp1);
