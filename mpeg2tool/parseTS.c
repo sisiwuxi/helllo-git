@@ -200,6 +200,198 @@ void ParseSliceHeader(long int offset, char* parseData)
 	return;
 }
 
+void PrintNALType(int NALType)
+{
+    switch(NALType)
+    {
+        case NAL_TYPE_TRAIL_N:
+            INFO("\n[TRAIL_N,VLC,B-Slice,Coded slice segment of a non-TSA, non-STSA trailing picture, slice_segment_layer_rbsp]");	
+            break;
+        case NAL_TYPE_TRAIL_R:
+            INFO("\n[TRAIL_R,VLC,P-Slice,Coded slice segment of a non-TSA, non-STSA trailing picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_TSA_N:
+            INFO("\n[TSA_N,VLC,Coded slice segment of a TSA picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_TSA_R:
+            INFO("\n[TSA_R,VLC,Coded slice segment of a TSA picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_STSA_N:
+            INFO("\n[STSA_N,VLC,Coded slice segment of an STSA picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_STSA_R:
+            INFO("\n[STSA_R,VLC,Coded slice segment of an STSA picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_RADL_N:
+            INFO("\n[RADL_N,VLC,Coded slice segment of a RADL picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_RADL_R:
+            INFO("\n[RADL_R,VLC,Coded slice segment of a RADL picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_RASL_N:
+            INFO("\n[RASL_N,VLC,Coded slice segment of a RASL picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_RASL_R:
+            INFO("\n[RASL_R,VLC,Coded slice segment of a RASL picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_VCL_N11:
+            INFO("\n[VCL_N11,VLC,Reserved non-IRAP sub-layer reference VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_VCL_N13:
+            INFO("\n[VCL_N13,VLC,Reserved non-IRAP sub-layer reference VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_VCL_N15:
+            INFO("\n[VCL_N15,VLC,Reserved non-IRAP sub-layer reference VCL NAL unit types]");	
+            break;
+        case NAL_TYPE_BLA_W_LP:
+            INFO("\n[BLA_W_LP,VLC,Coded slice segment of a BLA picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_BLA_W_RADL:
+            INFO("\n[BLA_W_RADL,VLC,Coded slice segment of a BLA picture, slice_segment_layer_rbsp]");	
+            break;		
+        case NAL_TYPE_BLA_N_LP:
+            INFO("\n[BLA_N_LP,VLC,Coded slice segment of a BLA picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_IDR_W_RADL:
+            INFO("\n[IDR_W_RADL,VLC,Coded slice segment of an IDR picture, slice_segment_layer_rbsp]");	
+            break;	
+        case NAL_TYPE_IDR_N_LP:
+            INFO("\n[IDR_N_LP,VLC,Coded slice segment of an IDR picture, slice_segment_layer_rbsp]");	
+            break;			
+        case NAL_TYPE_CRA_NU:
+            INFO("\n[CRA_NU,VLC,Coded slice segment of an CRA picture, slice_segment_layer_rbsp]");	
+            break;
+        case NAL_TYPE_RSV_IRAP_VCL22:
+            INFO("\n[RSV_IRAP_VCL22,VLC,Reserved IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_IRAP_VCL23:
+            INFO("\n[RSV_IRAP_VCL23,VLC,Reserved IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_VCL24:
+            INFO("\n[RSV_VCL24,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;		
+        case NAL_TYPE_RSV_VCL25:
+            INFO("\n[RSV_VCL25,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_VCL26:
+            INFO("\n[RSV_VCL26,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;				
+        case NAL_TYPE_RSV_VCL27:
+            INFO("\n[RSV_VCL27,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_VCL28:
+            INFO("\n[RSV_VCL28,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;		
+        case NAL_TYPE_RSV_VCL29:
+            INFO("\n[RSV_VCL29,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_VCL30:
+            INFO("\n[RSV_VCL30,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;	
+        case NAL_TYPE_RSV_VCL31:
+            INFO("\n[RSV_VCL31,VLC,Reserved non-IRAP VCL NAL unit types]");	
+            break;		
+        case NAL_TYPE_VPS_NUT:
+            INFO("\n[VPS_NUT,non-VLC,Video parameter set, video_parameter_set_rbsp]");	
+            break;				
+        case NAL_TYPE_SPS_NUT:
+            INFO("\n[SPS_NUT,non-VLC,Sequence parameter set, seq_parameter_set_rbsp]");	
+            break;	
+        case NAL_TYPE_PPS_NUT:
+            INFO("\n[PPS_NUT,non-VLC,Picture  parameter set, pic_parameter_set_rbsp]");	
+            break;			
+        case NAL_TYPE_AUD_NUT:
+            INFO("\n[AUD_NUT,non-VLC,Access unit delimiter, access_unit_delimiter_rbsp]");	
+            break;	
+        case NAL_TYPE_EOS_NUT:
+            INFO("\n[EOS_NUT,non-VLC,End of sequence, end_of_seq_rbsp]");	
+            break;			
+        case NAL_TYPE_EOB_NUT:
+            INFO("\n[EOB_NUT,non-VLC,End of bitstream, end_of_bitstream_rbsp]");	
+            break;	
+        case NAL_TYPE_FD_NUT:
+            INFO("\n[FD_NUT,non-VLC,Filler data, filler_data_rbsp]");	
+            break;			
+        case NAL_TYPE_PREFIX_SEI_NUT:
+            INFO("\n[PREFIX_SEI_NUT,non-VLC,Supplemental enhancement information, sei_rbsp]");	
+            break;
+        case NAL_TYPE_SUFFIX_SEI_NUT:
+            INFO("\n[SUFFIX_SEI_NUT,non-VLC,Supplemental enhancement information, sei_rbsp]");	
+            break;			
+        case NAL_TYPE_RSV_NVCL41:
+            INFO("\n[RSV_NVCL41,non-VLC,Reserved]");	
+            break;	
+        case NAL_TYPE_RSV_NVCL42:
+            INFO("\n[RSV_NVCL42,non-VLC,Reserved]");	
+            break;	
+        case NAL_TYPE_RSV_NVCL43:
+            INFO("\n[RSV_NVCL43,non-VLC,Reserved]");	
+            break;			
+        case NAL_TYPE_RSV_NVCL44:
+            INFO("\n[RSV_NVCL44,non-VLC,Reserved]");	
+            break;
+        case NAL_TYPE_RSV_NVCL45:
+            INFO("\n[RSV_NVCL45,non-VLC,Reserved]");	
+            break;	
+        case NAL_TYPE_RSV_NVCL46:
+            INFO("\n[RSV_NVCL46,non-VLC,Reserved]");	
+            break;	
+        case NAL_TYPE_RSV_NVCL47:
+            INFO("\n[RSV_NVCL47,non-VLC,Reserved]");	
+            break;				
+        case NAL_TYPE_UNSPEC48:
+            WEAK_INFO("\n[UNSPEC48,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC49:
+            WEAK_INFO("\n[UNSPEC49,non-VLC,Unspecified]");	
+            break;			
+        case NAL_TYPE_UNSPEC50:
+            WEAK_INFO("\n[UNSPEC50,non-VLC,Unspecified]");	
+            break;	
+        case NAL_TYPE_UNSPEC51:
+            WEAK_INFO("\n[UNSPEC51,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC52:
+            WEAK_INFO("\n[UNSPEC52,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC53:
+            WEAK_INFO("\n[UNSPEC53,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC54:
+            WEAK_INFO("\n[UNSPEC54,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC55:
+            WEAK_INFO("\n[UNSPEC55,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC56:
+            WEAK_INFO("\n[UNSPEC56,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC57:
+            WEAK_INFO("\n[UNSPEC57,non-VLC,Unspecified]");	
+            break;			
+        case NAL_TYPE_UNSPEC58:
+            WEAK_INFO("\n[UNSPEC58,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC59:
+            WEAK_INFO("\n[UNSPEC59,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC60:
+            WEAK_INFO("\n[UNSPEC60,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC61:
+            WEAK_INFO("\n[UNSPEC61,non-VLC,Unspecified]");	
+            break;
+        case NAL_TYPE_UNSPEC62:
+            WEAK_INFO("\n[UNSPEC62,non-VLC,Unspecified]");	
+            break;			
+        case NAL_TYPE_UNSPEC63:
+            WEAK_INFO("\n[UNSPEC63,non-VLC,Unspecified]");	
+            break;	
+        default:
+            break;
+    }	
+}
+
 void MPEG2ToolGetPIDs()
 {
     FILE *fp1;
@@ -255,7 +447,8 @@ void MPEG2ToolGetPIDs()
                 if(NAL_START_CODE == StartCode)
                 {
 			NALType = (temp_ts_packet[i+4] & BIT123456)>>1;
-			if(NALType>=16 && NALType<=23)
+			PrintNALType(NALType);
+			//if(NALType>=16 && NALType<=23)
 			    INFO("  [%d-%d] ", NALType, ftell(fp1));			
                 }
             }

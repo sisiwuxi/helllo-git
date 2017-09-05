@@ -34,7 +34,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
         ERR("\nfp1 error open\n");
     if((fp2 = fopen(MPEG2ToolGetOutputPath(),"wb+")) == NULL)
         ERR("\nfp2 error open\n");
-    if(0 == CodecType)//slice
+    if(CODEC_TYPE_MPEG2 == CodecType)//slice
     {
         //====================start_time================//
         FileDuration = MPEG2ToolGetDuration();
@@ -111,16 +111,21 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
             }
         }
     }
-    else if(1 == CodecType)//NALType
+    else if(CODEC_TYPE_HEVC == CodecType)//NALType
     {
         bool isMatch = false;
         int StartCode = 0, NALType = 0, MatchTimes=0;
-        fseek(fp1, 0, SEEK_SET);
+        int Package_Num=0, Package_Total=0, Package_Start=0, Package_End=0;
+	 float Time_Total = 0.0;
+	 int Time_Start = 0;
+
+#if 0
         while(!feof(fp1))
         {
             temp = fgetc(fp1) & B8BIT;
             if(temp == 0x47)
             {
+                Package_Num++;
                 temp_ts_packet[0] = temp;
                 for(i=1; i<188; i++)
                     temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
@@ -136,7 +141,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
                         {
                             isMatch=true;
                             MatchTimes++;
-                            INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));							
+                            INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));
                         }
                     }
                 }
@@ -156,12 +161,77 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
                     fputc((temp_ts_packet[i] & B8BIT), fp2);
                 }
             }
-	     else
+            else
             {
                 //INFO("\n  [%d-%d-%d] jump=======\n", MatchTimes, NALType, ftell(fp1));
-                fseek(fp1, (ftell(fp1) + 188*4000), SEEK_SET);
-            }		 	
+                fseek(fp1, (ftell(fp1) + 188*1200), SEEK_SET);
+            }
         }
+#endif
+#if 1
+        Time_Start = MPEG2ToolGetStartTime();
+        Time_Total = MPEG2ToolGetDuration();
+        fseek(fp1, 0, SEEK_SET);		
+        while(!feof(fp1))
+        {
+            temp = fgetc(fp1) & B8BIT;
+            if(0x47 == temp)
+            {
+                Package_Total++;
+                for(i=1; i<188; i++)
+                    fgetc(fp1);				
+            }
+        }
+        Package_Start = Package_Total * Time_Start / Time_Total;
+        Package_End = Package_Total * ((float)Time_Start + (float)((float)AbendDuration / 1000.0)) / Time_Total;
+        INFO("\n=========[%d,%d-%d]=======\n", Package_Total, Package_Start, Package_End);		
+        fseek(fp1, 0, SEEK_SET);		
+        while(!feof(fp1))
+        {
+            temp = fgetc(fp1) & B8BIT;
+            if(temp == 0x47)
+            {
+                Package_Num++;
+                temp_ts_packet[0] = temp;
+                for(i=1; i<188; i++)
+                    temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
+                isMatch = false;				
+                //if((Package_Num>=47138 && Package_Num<=53423) ||(Package_Num>=78563 && Package_Num<=84848))
+                if(Package_Num>=Package_Start && Package_Num<=Package_End)
+                {
+                    for(i=0; i<188; i++)
+                    {
+                        //StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
+                        StartCode = (temp_ts_packet[i]<<16)|(temp_ts_packet[i+1]<<8)|(temp_ts_packet[i+2]);
+                        if(NAL_START_CODE == StartCode)
+                        {
+                            NALType = (temp_ts_packet[i+3] & BIT123456)>>1;
+				#if 0
+                            if((NALType>=NAL_TYPE_BLA_W_LP && NALType<=NAL_TYPE_RSV_IRAP_VCL23)
+                                    ||(NAL_TYPE_TRAIL_N == NALType) || (NAL_TYPE_TRAIL_R == NALType))
+                            #endif
+                            if((NAL_TYPE_TRAIL_N == NALType) || (NAL_TYPE_TRAIL_R == NALType))                                    
+                            {
+                                isMatch=true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if(!isMatch)
+            {
+                for(i=0; i<188; i++)
+                {
+                    fputc((temp_ts_packet[i] & B8BIT), fp2);
+                }
+            }
+	     else
+	     {
+                INFO("  [%d-%d] ", NALType, ftell(fp1));
+	     }
+        }
+#endif
     }
     fclose(fp1);
     fclose(fp2);
