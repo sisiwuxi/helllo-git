@@ -3,5 +3,5 @@
 /* Date   : 2017/7/12                                       */
 /************************************************************/
 
-void MPEG2ToolGetPIDs();
+void MPEG2ToolParsePIDs();
 

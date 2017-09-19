@@ -16,14 +16,21 @@
 #define B12345BIT 0x3e
 #define B0BIT 0x01
 #define B8BIT ((~(~0))|0xff)
+//=================ParseType====================//
+typedef enum
+{
+    PARSE_PIDs = 0,
+    PARSE_MPEG2,
+    PARSE_HEVC,
+    PARSE_NUM,
+}_ParseType;
 //=================CodecType====================//
-
-enum
+typedef enum
 {
     CODEC_TYPE_MPEG2 = 0,
     CODEC_TYPE_HEVC,
     CODEC_TYPE_NUM,
-};
+}_CodecType;
 
 //=================MPEG2====================//
 #define VIDEO_SEQUENCE_CODE 0x000001e0

@@ -45,9 +45,9 @@ void test_all()
     INFO("\n=[test_duration]==================mpeg2tool -i input.ts -d========================\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolGetDuration();
-    INFO("\n=[test_duration]==================mpeg2tool -i input.ts -p========================\n");
+    INFO("\n=[test_parse]==================mpeg2tool -i input.ts -p 0========================\n");
     MPEG2ToolSetInputPath("input.ts");
-    MPEG2ToolGetPIDs();
+    MPEG2ToolParser("0");
     INFO("\n=[test_concat]==================./mpeg2tool -c input_abend.ts input2.ts concat.ts========================\n");
     MPEG2ToolConcat("input_abend.ts", "input2.ts", "concat.ts");
     INFO("\n=[test_concat]==================./mpeg2tool -i input.ts -o output.ts -s========================\n");
@@ -102,8 +102,8 @@ int main(int argc , char* argv[])
                 break;
 
             case 'p' :
-                //CHECK_ARGS(i, 1, argc);
-                MPEG2ToolGetPIDs();
+                CHECK_ARGS(i, 1, argc);
+                MPEG2ToolParser(argv[++i]);
                 break;
 
             case 'v' :

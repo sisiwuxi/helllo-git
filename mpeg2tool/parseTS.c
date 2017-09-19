@@ -392,7 +392,7 @@ void PrintNALType(int NALType)
     }	
 }
 
-void MPEG2ToolGetPIDs()
+void MPEG2ToolParsePIDs()
 {
     FILE *fp1;
     if((fp1 = fopen(MPEG2ToolGetInputPath(),"rb")) == NULL)
@@ -427,40 +427,25 @@ void MPEG2ToolGetPIDs()
         }
     }
     PrintPIDs();
-//=================Collect_header&offset==================//
-#if 1
-    INFO("\n============Collect_HEVC_header===============\n");
+FINISH:
+    if(fp1!=NULL)
+        fclose(fp1);
+    return;
+}
 
-    int StartCode = 0, NALType = 0;
-    fseek(fp1, 0, SEEK_SET);
-    while(!feof(fp1))
+
+void MPEG2ToolParseMPEG2()
+{
+    FILE *fp1;
+    if((fp1 = fopen(MPEG2ToolGetInputPath(),"rb")) == NULL)
     {
-        temp = fgetc(fp1) & B8BIT;
-        if(temp == 0x47)
-        {
-            temp_ts_packet[0] = temp;
-            for(i=1; i<188; i++)
-                temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
-            for(i=0; i<188; i++)
-            {
-                StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
-                if(NAL_START_CODE == StartCode)
-                {
-			NALType = (temp_ts_packet[i+4] & BIT123456)>>1;
-			PrintNALType(NALType);
-			//if(NALType>=16 && NALType<=23)
-			    INFO("  [%d-%d] ", NALType, ftell(fp1));			
-                }
-            }
-        }
+        ERR("\nfp1 error open\n");
+        goto FINISH;
     }
-#endif
-
-#if 0
-    INFO("\n============Collect_mpeg2_header===============\n");
-
-    int StartCode = 0, Picture_coding_type = 0, video_format = 0;
+    int temp, temp_ts_packet[188];
+    int i = 0, StartCode = 0, Picture_coding_type = 0, video_format = 0;
     char SequenceHeader[12+1] = {0}, ExtensionHeader[22 + 1] = {0}, GOPHeader[8+1]={0}, PictureHeader[8+1]={0}, SliceHeader[SLICE_HEADER_LEN+1]={0};
+    INFO("\n============Collect_mpeg2_header===============\n");	
     fseek(fp1, 0, SEEK_SET);
     while(!feof(fp1))
     {
@@ -513,13 +498,75 @@ void MPEG2ToolGetPIDs()
             }
         }
     }
-#endif
+
 FINISH:
     if(fp1!=NULL)
         fclose(fp1);
     return;
 }
 
+void MPEG2ToolParseHEVC()
+{
+    FILE *fp1;
+    if((fp1 = fopen(MPEG2ToolGetInputPath(),"rb")) == NULL)
+    {
+        ERR("\nfp1 error open\n");
+        goto FINISH;
+    }
+
+    int temp, temp_ts_packet[188];
+    int i = 0, StartCode = 0, NALType = 0;
+    INFO("\n============Collect_HEVC_header===============\n");
+	
+    fseek(fp1, 0, SEEK_SET);
+    while(!feof(fp1))
+    {
+        temp = fgetc(fp1) & B8BIT;
+        if(temp == 0x47)
+        {
+            temp_ts_packet[0] = temp;
+            for(i=1; i<188; i++)
+                temp_ts_packet[i] = (fgetc(fp1) & B8BIT);
+            for(i=0; i<188; i++)
+            {
+                StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
+                if(NAL_START_CODE == StartCode)
+                {
+			NALType = (temp_ts_packet[i+4] & BIT123456)>>1;
+			PrintNALType(NALType);
+			if(NALType>=16 && NALType<=23)
+			    INFO("  [%d-%d] ", NALType, ftell(fp1));			
+                }
+            }
+        }
+    }
+
+FINISH:
+    if(fp1!=NULL)
+        fclose(fp1);
+    return;
+}
+
+
+void MPEG2ToolParser(char* Parse_Type)
+{	
+	_ParseType ParseType = atoi(Parse_Type);
+	switch(ParseType)
+	{
+		case PARSE_PIDs:
+			MPEG2ToolParsePIDs();
+			break;
+		case PARSE_MPEG2:
+			MPEG2ToolParseMPEG2();
+			break;	
+		case PARSE_HEVC:
+			MPEG2ToolParseHEVC();
+			break;
+		default:
+			break;				
+	}
+	return;
+}
 
 void MPEG2AddSEI()
 {
