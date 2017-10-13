@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+// ./a.out input.ts output.ts 0 3440227
 //#define CUT_OFFSET 0x4499EC
 #define MAX_NAME_LEN 20
 
