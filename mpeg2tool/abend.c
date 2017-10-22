@@ -8,6 +8,8 @@
 #include "include/common.h"
 #include "include/abend.h"
 
+#define DBG_LEVEL TOOL_DBG_ERR
+
 void MPEG2AbendInit()
 {
     abend_duration = 0;
@@ -22,7 +24,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
 {
     int AbendDuration = atoi(abend_duration_str);
     int CodecType = atoi(Codec_Type);
-    INFO("\nMPEG2AbendStream[%d-%d]\n", AbendDuration, CodecType);
+    DBG_INFO("\nMPEG2AbendStream[%d-%d]\n", AbendDuration, CodecType);
     FILE *fp1, *fp2;
     bool has_SLICE = false;
     int i = 0, StartCode = 0, SLICENum=0, SLICEHeaderNum=0;
@@ -31,9 +33,9 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
     int AbendStart = 0, AbendStartNum=0, AbendEndNum=0;
     //====================open_file================//
     if((fp1 = fopen(MPEG2ToolGetInputPath(),"rb")) == NULL)
-        ERR("\nfp1 error open\n");
+        DBG_ERR("\nfp1 error open\n");
     if((fp2 = fopen(MPEG2ToolGetOutputPath(),"wb+")) == NULL)
-        ERR("\nfp2 error open\n");
+        DBG_ERR("\nfp2 error open\n");
     if(CODEC_TYPE_MPEG2 == CodecType)//slice
     {
         //====================start_time================//
@@ -68,8 +70,8 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
         AbendEndNum = AbendStartNum + (SLICENum*AbendDuration)/(FileDuration*1000);
         if(AbendEndNum < 0)
             AbendEndNum = 0;
-        DEBUG("\nAbendStart=%d, FileDuration=%f, AbendDuration=%d]\n", AbendStart, FileDuration, AbendDuration);
-        INFO("\n----[%d,%d,%d]----\n", SLICENum, AbendStartNum, AbendEndNum);
+        DBG_ERR("\nAbendStart=%d, FileDuration=%f, AbendDuration=%d]\n", AbendStart, FileDuration, AbendDuration);
+        DBG_INFO("\n----[%d,%d,%d]----\n", SLICENum, AbendStartNum, AbendEndNum);
         //====================abend_slice================//
         fseek(fp1, 0, SEEK_SET);
         while(!feof(fp1))
@@ -114,7 +116,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
     else if(CODEC_TYPE_HEVC == CodecType)//NALType
     {
         bool isMatch = false;
-        int StartCode = 0, NALType = 0, MatchTimes=0;
+        int StartCode = 0, NALType = 0;//MatchTimes=0;
         int Package_Num=0, Package_Total=0, Package_Start=0, Package_End=0;
 	 float Time_Total = 0.0;
 	 int Time_Start = 0;
@@ -141,7 +143,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
                         {
                             isMatch=true;
                             MatchTimes++;
-                            INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));
+                            DBG_INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));
                         }
                     }
                 }
@@ -155,7 +157,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
             }
             else if(isMatch && MatchTimes!=2)
             {
-                //INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));
+                //DBG_INFO("  [%d-%d-%d] ", MatchTimes, NALType, ftell(fp1));
                 for(i=0; i<188; i++)
                 {
                     fputc((temp_ts_packet[i] & B8BIT), fp2);
@@ -163,7 +165,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
             }
             else
             {
-                //INFO("\n  [%d-%d-%d] jump=======\n", MatchTimes, NALType, ftell(fp1));
+                //DBG_INFO("\n  [%d-%d-%d] jump=======\n", MatchTimes, NALType, ftell(fp1));
                 fseek(fp1, (ftell(fp1) + 188*1200), SEEK_SET);
             }
         }
@@ -184,7 +186,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
         }
         Package_Start = Package_Total * Time_Start / Time_Total;
         Package_End = Package_Total * ((float)Time_Start + (float)((float)AbendDuration / 1000.0)) / Time_Total;
-        INFO("\n=========[%d,%d-%d]=======\n", Package_Total, Package_Start, Package_End);		
+        DBG_INFO("\n=========[%d,%d-%d]=======\n", Package_Total, Package_Start, Package_End);		
         fseek(fp1, 0, SEEK_SET);		
         while(!feof(fp1))
         {
@@ -203,14 +205,14 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
                     {
                         //StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
                         StartCode = (temp_ts_packet[i]<<16)|(temp_ts_packet[i+1]<<8)|(temp_ts_packet[i+2]);
-                        if(NAL_START_CODE == StartCode)
+                        if(HEVC_NAL_START_CODE == StartCode)
                         {
                             NALType = (temp_ts_packet[i+3] & BIT123456)>>1;
 				#if 0
                             if((NALType>=NAL_TYPE_BLA_W_LP && NALType<=NAL_TYPE_RSV_IRAP_VCL23)
                                     ||(NAL_TYPE_TRAIL_N == NALType) || (NAL_TYPE_TRAIL_R == NALType))
                             #endif
-                            if((NAL_TYPE_TRAIL_N == NALType) || (NAL_TYPE_TRAIL_R == NALType))                                    
+                            if((HEVC_NAL_TYPE_TRAIL_N == NALType) || (HEVC_NAL_TYPE_TRAIL_R == NALType))                                    
                             {
                                 isMatch=true;
                                 break;
@@ -228,7 +230,7 @@ void MPEG2AbendStream(char* abend_duration_str, char* Codec_Type)
             }
 	     else
 	     {
-                INFO("  [%d-%d] ", NALType, ftell(fp1));
+                DBG_INFO("  [%d-%ld] ", NALType, ftell(fp1));
 	     }
         }
 #endif

@@ -4,4 +4,6 @@
 /************************************************************/
 
 void MPEG2ToolParsePIDs();
+void MPEG2ToolParser(char* Parse_Type);
+void MPEG2AddSEI(void);
 

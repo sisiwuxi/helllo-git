@@ -11,46 +11,48 @@
 #include "include/abend.h"
 #include "include/parseTS.h"
 
+#define DBG_LEVEL TOOL_DBG_ERR
+
 void show_version()
 {
-    INFO("%s\n",version);
+    DBG_INFO("%s\n",version);
 }
 
 void show_help()
 {
-    INFO("\nOptions :\n\n");
+    DBG_INFO("\nOptions :\n\n");
 
-    INFO("-i : The path of input TS file\n");
-    INFO("-o : The path of output TS file\n");
-    INFO("-t : The location you want to start abend, style:00:00:00\n");
-    INFO("-a : The duration of abend you want to make, unit:ms\n");
-    INFO("-c : concat two TS into one TS; Ex:mpeg2tool -c input1.ts input2.ts output.ts\n");
-    INFO("-d : The duration of input TS file, unit:s; Ex:mpeg2tool -i input.ts -d\n");
-    INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p > 1.txt\n");
-    INFO("-s : Add SEI for HLG / BT2020; Ex:mpeg2tool -i input.ts -o output.ts -s\n");
-    INFO("-T : Run auto test\n");
-    INFO("-h : show help\n");
-    INFO("\n\n");
-    INFO("If you meet a BUG or have some good ideas , send Email to sisiwuxi@hotmail.com\n");
-    INFO("\n\n");
+    DBG_INFO("-i : The path of input TS file\n");
+    DBG_INFO("-o : The path of output TS file\n");
+    DBG_INFO("-t : The location you want to start abend, style:00:00:00\n");
+    DBG_INFO("-a : The duration of abend you want to make, unit:ms\n");
+    DBG_INFO("-c : concat two TS into one TS; Ex:mpeg2tool -c input1.ts input2.ts output.ts\n");
+    DBG_INFO("-d : The duration of input TS file, unit:s; Ex:mpeg2tool -i input.ts -d\n");
+    DBG_INFO("-p : Show all PIDs; Ex:mpeg2tool -i input.ts -p > 1.txt\n");
+    DBG_INFO("-s : Add SEI for HLG / BT2020; Ex:mpeg2tool -i input.ts -o output.ts -s\n");
+    DBG_INFO("-T : Run auto test\n");
+    DBG_INFO("-h : show help\n");
+    DBG_INFO("\n\n");
+    DBG_INFO("If you meet a BUG or have some good ideas , send Email to sisiwuxi@hotmail.com\n");
+    DBG_INFO("\n\n");
 }
 
 void test_all()
 {
-    INFO("\n=[test_abend]====mpeg2tool -i input.ts -o input_abend.ts -t 00:00:03 -a 400 0=============\n");
+    DBG_INFO("\n=[test_abend]====mpeg2tool -i input.ts -o input_abend.ts -t 00:00:03 -a 400 0=============\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolSetOutputPath("input_abend.ts");
     MPEG2ToolSetStartTime("00:00:03");
     MPEG2AbendStream("400", "0");
-    INFO("\n=[test_duration]==================mpeg2tool -i input.ts -d========================\n");
+    DBG_INFO("\n=[test_duration]==================mpeg2tool -i input.ts -d========================\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolGetDuration();
-    INFO("\n=[test_parse]==================mpeg2tool -i input.ts -p 0========================\n");
+    DBG_INFO("\n=[test_parse]==================mpeg2tool -i input.ts -p 0========================\n");
     MPEG2ToolSetInputPath("input.ts");
-    MPEG2ToolParser("0");
-    INFO("\n=[test_concat]==================./mpeg2tool -c input_abend.ts input2.ts concat.ts========================\n");
+    MPEG2ToolParser((char *)"0");
+    DBG_INFO("\n=[test_concat]==================./mpeg2tool -c input_abend.ts input2.ts concat.ts========================\n");
     MPEG2ToolConcat("input_abend.ts", "input2.ts", "concat.ts");
-    INFO("\n=[test_concat]==================./mpeg2tool -i input.ts -o output.ts -s========================\n");
+    DBG_INFO("\n=[test_concat]==================./mpeg2tool -i input.ts -o output.ts -s========================\n");
     MPEG2ToolSetInputPath("input.ts");
     MPEG2ToolSetOutputPath("output.ts");
     MPEG2AddSEI();

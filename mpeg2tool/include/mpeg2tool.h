@@ -5,7 +5,7 @@
 
 #define CHECK_ARGS(cur,need,max) if(cur + need >= max) \
 	{ \
-		INFO("Bad arguments : Abend -h for help\n"); \
+		DBG_ERR("Bad arguments : Abend -h for help\n"); \
 		return(-1); \
 	}
 

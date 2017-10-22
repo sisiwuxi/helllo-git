@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/common.h"
+
+#define DBG_LEVEL TOOL_DBG_ERR
+
 MPEG2Tool_t Mpeg2Tool;
 
 void MPEG2ToolInit()
@@ -20,8 +23,9 @@ void MPEG2ToolDeInit()
 
 void MPEG2ToolSetInputPath(char* input_path)
 {
+    MPEG2ToolInit();
     strcpy(Mpeg2Tool.input_path, input_path);
-    DEBUG("\ninput path=%s-%s\n", input_path, Mpeg2Tool.input_path);
+    DBG_ERR("\ninput path=%s-%s\n", input_path, Mpeg2Tool.input_path);
 }
 
 char* MPEG2ToolGetInputPath()
@@ -32,7 +36,7 @@ char* MPEG2ToolGetInputPath()
 void MPEG2ToolSetOutputPath(char* output_path)
 {
     strcpy(Mpeg2Tool.output_path, output_path);
-    DEBUG("\noutput path=%s-%s\n", output_path, Mpeg2Tool.output_path);
+    DBG_ERR("\noutput path=%s-%s\n", output_path, Mpeg2Tool.output_path);
 }
 
 char* MPEG2ToolGetOutputPath()
@@ -56,14 +60,14 @@ void MPEG2ToolSetStartTime(char* time)
         sec_str[0]=time[6];
         sec_str[1]=time[7];
         sec=atoi(sec_str);
-        DEBUG("\n[%s-%d] [%s-%d] [%s-%d]\n", hour_str, hour, min_str, min, sec_str, sec);
+        DBG_ERR("\n[%s-%d] [%s-%d] [%s-%d]\n", hour_str, hour, min_str, min, sec_str, sec);
         Mpeg2Tool.start_time = hour*60*60 + min*60 + sec;
     }
     else
     {
         Mpeg2Tool.start_time = 0;
     }
-    DEBUG("\ntime=%s-%d\n", time, Mpeg2Tool.start_time);
+    DBG_ERR("\ntime=%s-%d\n", time, Mpeg2Tool.start_time);
 }
 
 int MPEG2ToolGetStartTime()
@@ -79,7 +83,7 @@ float MPEG2ToolGetDuration()
     float input_file_duration=0.0;
     if((fp = fopen(MPEG2ToolGetInputPath(),"rb")) == NULL)
     {
-        ERR("\nfp error open\n");
+        DBG_ERR("\nfp error open\n");
         goto FINISH;
     }
     int i=0, StartCode=0, temp=0, temp_ts_packet[188] = {0};
@@ -113,7 +117,7 @@ float MPEG2ToolGetDuration()
                 StartCode = (temp_ts_packet[i]<<24)|(temp_ts_packet[i+1]<<16)|(temp_ts_packet[i+2]<<8)|(temp_ts_packet[i+3]);
                 if((StartCode>=PES_START_CODE) && (StartCode<=PES_END_CODE))
                 {
-                    //INFO(" 0x%x-0x%x ", StartCode & B8BIT, (StartCode & B8BIT)>>5);
+                  DBG_INFO(" 0x%x-0x%x ", StartCode & B8BIT, (StartCode & B8BIT)>>5);
 		    if((StartCode & B8BIT)>>4 != 0x0E)//1110xxxx---video
 		    //if((StartCode & B8BIT)>>5 != 0x06)//110xxxxx---audio
 		    {
@@ -126,7 +130,7 @@ float MPEG2ToolGetDuration()
                         PTS_29_15 = (temp_ts_packet[i+10]<<8 | temp_ts_packet[i+11])>>1;
                         PTS_14_0 = (temp_ts_packet[i+12]<<8 | temp_ts_packet[i+13])>>1;
                         PTS_Start = (PTS_32_30<<30)|(PTS_29_15<<15)|PTS_14_0;
-                        DEBUG("\nTSNum_FPES=%d PTS[0x%x-0x%x-0x%x=0x%x] 0x%x\n", TSNum_FPES, PTS_32_30, PTS_29_15, PTS_14_0, PTS_Start, ((StartCode & B8BIT)>>4));
+                        DBG_ERR("\nTSNum_FPES=%d PTS[0x%x-0x%x-0x%x=0x%x] 0x%x\n", TSNum_FPES, PTS_32_30, PTS_29_15, PTS_14_0, PTS_Start, ((StartCode & B8BIT)>>4));
 		    }
                 }
             }
@@ -162,7 +166,7 @@ float MPEG2ToolGetDuration()
                         PTS_29_15 = (temp_ts_packet[i+10]<<8 | temp_ts_packet[i+11])>>1;
                         PTS_14_0 = (temp_ts_packet[i+12]<<8 | temp_ts_packet[i+13])>>1;
                         PTS_End = (PTS_32_30<<30)|(PTS_29_15<<15)|PTS_14_0;
-                        DEBUG("\nTSNum_EPES=%d PTS[0x%x-0x%x-0x%x=0x%x] 0x%x\n", TSNum_EPES, PTS_32_30, PTS_29_15, PTS_14_0, PTS_End, ((StartCode & B8BIT)>>4));
+                        DBG_ERR("\nTSNum_EPES=%d PTS[0x%x-0x%x-0x%x=0x%x] 0x%x\n", TSNum_EPES, PTS_32_30, PTS_29_15, PTS_14_0, PTS_End, ((StartCode & B8BIT)>>4));
 		    }
                 }
             }
@@ -173,7 +177,7 @@ float MPEG2ToolGetDuration()
     FINISH:
         if(fp!=NULL)
             fclose(fp);
-	 ERR("\nTSTotal[%d-%d-%d]=%f\n", TSTotal, TSNum_FPES, TSNum_EPES, input_file_duration);
+	 DBG_ERR("\nTSTotal[%d-%d-%d]=%f\n", TSTotal, TSNum_FPES, TSNum_EPES, input_file_duration);
     return input_file_duration;
 }
 
@@ -182,22 +186,22 @@ float MPEG2ToolGetDuration()
  */
 void MPEG2ToolConcat(char* input1_path, char* input2_path, char* output_path)
 {
-    FILE *fp1, *fp2, *fp_out;
-    INFO("\n [%s %s %s]n", input1_path, input2_path, output_path);
+    FILE *fp1=NULL, *fp2=NULL, *fp_out=NULL;
+    DBG_INFO("\n [%s %s %s]n", input1_path, input2_path, output_path);
 	
     if((fp1 = fopen(input1_path,"rb")) == NULL)
     {
-        ERR("\nfp1 error open\n");
+        DBG_ERR("\nfp1 error open\n");
         goto FINISH;
     }
     if((fp2 = fopen(input2_path,"rb")) == NULL)
     {
-        ERR("\nfp2 error open\n");
+        DBG_ERR("\nfp2 error open\n");
         goto FINISH;
     }
     if((fp_out = fopen(output_path,"wb")) == NULL)
     {
-        ERR("\nfp_out error open\n");
+        DBG_ERR("\nfp_out error open\n");
         goto FINISH;
     }
     while(!feof(fp1))
