@@ -211,19 +211,19 @@ void PrintH264NALType(int NALType)
             DBG_INFO("[Unspecified]");	
             break;		
         case H264_NAL_TYPE_SLICE:
-            DBG_INFO("[SLICE Code slice of a non-IDR picture slice_layer_without_partitioning_rbsp()]");	
+            DBG_INFO("[%d SLICE Code slice of a non-IDR picture slice_layer_without_partitioning_rbsp()]", NALType);	
             break;	
         case H264_NAL_TYPE_DPA:
-            DBG_INFO("[DPA Coded slice data partition A slice_data_partition_a_layer_rbsp()]");	
+            DBG_INFO("[%d DPA Coded slice data partition A slice_data_partition_a_layer_rbsp()]", NALType);	
             break;		
         case H264_NAL_TYPE_DPB:
-            DBG_INFO("[DPB Coded slice data partition B slice_data_partition_b_layer_rbsp()]");	
+            DBG_INFO("[%d DPB Coded slice data partition B slice_data_partition_b_layer_rbsp()]", NALType);	
             break;	
         case H264_NAL_TYPE_DPC:
-            DBG_INFO("[DPC Coded slice data partition C slice_data_partition_c_layer_rbsp()]");	
+            DBG_INFO("[%d DPC Coded slice data partition C slice_data_partition_c_layer_rbsp()]", NALType);	
             break;		
         case H264_NAL_TYPE_IDR:
-            DBG_INFO("[IDR Coded slice of an IDR picture slice_layer_without_partitioning_rbsp()]");	
+            DBG_INFO("[%d IDR Coded slice of an IDR picture slice_layer_without_partitioning_rbsp()]", NALType);	
             break;	
         case H264_NAL_TYPE_SEI:
             DBG_INFO("[SEI Supplemental enhancement information(SEI) sei_rbsp()]");	
