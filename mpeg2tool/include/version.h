@@ -5,5 +5,5 @@
 /************************************************************/
 #ifndef _VERSION_H_
 #define _VERSION_H_
-char version[] = "Mon Aug 28 19:57:29 CST 2017";
+char version[] = "Thu Oct 19 10:32:08 CST 2017";
 #endif

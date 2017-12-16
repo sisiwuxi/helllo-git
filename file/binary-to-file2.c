@@ -64,8 +64,8 @@ void main()
         }
         else
         {
-            //fputc(0x0D, fp2);
-            //fputc(0x0A, fp2);
+            fputc(0x0D, fp2);
+            fputc(0x0A, fp2);
         }
         k++;
     }

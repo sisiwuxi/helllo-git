@@ -181,10 +181,10 @@ typedef enum
 #if 1
 // Who want to use DBG_INFO for debugging should define DBG_LEVEL by itself.
 #define TOOL_PRINT(fmt, args...)      ({do{printf(fmt, ##args);}while(0);})
-#define DBG_ERR(fmt, args...)       ({do{if(DBG_LEVEL>=TOOL_DBG_ERR){printf(ASCII_COLOR_RED"[MI ERR ]: %s[%d]: ", __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
+#define DBG_ERR(fmt, args...)       ({do{if(DBG_LEVEL>=TOOL_DBG_ERR){printf(ASCII_COLOR_RED"[ERR ]: %s[%d]: ", __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
 #define DBG_WRN(fmt, args...)       ({do{if(DBG_LEVEL>=TOOL_DBG_WRN){printf(ASCII_COLOR_YELLOW);printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
 #define DBG_INFO(fmt, args...)      ({do{if(DBG_LEVEL>=TOOL_DBG_INFO){printf(ASCII_COLOR_GREEN);printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
-#define DBG_PPID_INFO(fmt, args...)	({do{if(DBG_LEVEL>=TOOL_DBG_INFO){printf(ASCII_COLOR_GREEN"[MI PPID INFO]: ");printf("[CallingPId :%d]",IPCThreadState::self()->getCallingPid());printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
+#define DBG_PPID_INFO(fmt, args...)	({do{if(DBG_LEVEL>=TOOL_DBG_INFO){printf(ASCII_COLOR_GREEN"[PPID INFO]: ");printf("[CallingPId :%d]",IPCThreadState::self()->getCallingPid());printf(fmt, ##args);printf(ASCII_COLOR_END);}}while(0);})
 #define DBG_ENTER()                 ({do{if(DBG_LEVEL>=TOOL_DBG_ALL){printf(ASCII_COLOR_BLUE">>>%s[%d] \n",__FUNCTION__,__LINE__);printf(ASCII_COLOR_END);}}while(0);})
 #define DBG_EXIT_OK()               ({do{if(DBG_LEVEL>=TOOL_DBG_ALL){printf(ASCII_COLOR_BLUE"<<<%s[%d] \n",__FUNCTION__,__LINE__);printf(ASCII_COLOR_END);}}while(0);})
 #else
