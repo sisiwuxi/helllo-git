@@ -150,9 +150,12 @@ void YUVToolNewFile(char* ColorType, char* Width, char* Height, char* ColorY, ch
     0     128 128--black
     255 255 255--rose
 #endif
-    color_y = atoi(ColorY);
-    color_u = atoi(ColorU);
-    color_v = atoi(ColorV);
+    if(ColorY)
+        color_y = atoi(ColorY);
+    if(ColorU)
+        color_u = atoi(ColorU);
+    if(ColorV)
+        color_v = atoi(ColorV);
 
     for (i = 0; i < height; ++i)
     {

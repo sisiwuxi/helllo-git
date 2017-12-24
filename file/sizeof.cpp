@@ -30,6 +30,8 @@ int main() {
     cout << sizeof(B) << endl;
     cout << sizeof(C) << endl;
     cout << sizeof(D) << endl;
+    cout << sizeof(p) << endl;
+    cout << sizeof(string) << endl;
     for(i=0; i <sizeof(p)/sizeof(string); i++)
         cout << p[i];
     cout << endl;

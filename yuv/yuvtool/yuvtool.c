@@ -25,7 +25,7 @@ void show_help()
 
 void test_all()
 {
-    INFO("\n=[new]====yuvtool  -n YUV420 1920 1080=============\n");
+    INFO("\n=[new]====yuvtool  -n YUV420 1920 1080 255 255 255=============\n");
     INFO("\n=[deTile]====yuvtool -i y.bin -c 3840 2160 16 32=============\n");
 	
 }

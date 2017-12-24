@@ -22,6 +22,9 @@ void  main(void)
 	}
 
 	printf("Process OK.\n");
+	c1 = COLORy;
+	c2 = COLORu;
+	c3 = COLORv;
 	for (i = 0; i < HEIGHT; ++i)
 	{
 		for (j = 0; j < WIDTH / 2; ++j){
