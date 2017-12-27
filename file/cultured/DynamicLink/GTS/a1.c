@@ -1,0 +1,6 @@
+/* a1.c */
+#include<stdio.h>
+void a()
+{
+    printf("a1.c\n");
+}
