@@ -62,7 +62,7 @@ int main (int argc, char *argv[])
     parser = gst_element_factory_make ("oggdemux", "ogg-parser");
     decoder = gst_element_factory_make ("vorbisdec", "vorbis-decoder");
     conv = gst_element_factory_make ("audioconvert", "converter");
-    sink = gst_element_factory_make ("jackaudiosink", "audio-output");
+    sink = gst_element_factory_make ("alsasink", "alsa-output");
     if (!pipeline || !source || !parser || !decoder || !conv || !sink) {
         g_print ("One element could not be created\n");
         return -1;

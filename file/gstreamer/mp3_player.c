@@ -45,8 +45,9 @@ int main(int argc,char *argv[])
     //创建管道和组件
     pipeline = gst_pipeline_new("audio-player");
     source = gst_element_factory_make("filesrc","file-source");
-    decoder = gst_element_factory_make("vorbisdec", "vorbis-decoder");
+    decoder = gst_element_factory_make("mad","mad-decoder");
     sink = gst_element_factory_make("autoaudiosink","audio-output");
+
 
     if(!pipeline||!source||!decoder||!sink) {
         g_printerr("One element could not be created.Exiting.\n");
