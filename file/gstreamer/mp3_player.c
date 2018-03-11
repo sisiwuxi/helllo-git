@@ -1,9 +1,9 @@
 #include <gst/gst.h>
 #include <glib.h>
-//定义消息处理函数,
+//定义消息处理函数
 static gboolean bus_call(GstBus *bus,GstMessage *msg,gpointer data)
 {
-    GMainLoop *loop = (GMainLoop *) data;//这个是主循环的指针，在接受EOS消息时退出循环
+    GMainLoop *loop = (GMainLoop *) data;//这个是主循环的指针，在接收到EOS消息时退出循环
     switch (GST_MESSAGE_TYPE(msg))
     {
     case GST_MESSAGE_EOS:
@@ -35,7 +35,7 @@ int main(int argc,char *argv[])
     GstBus *bus;
 
     gst_init(&argc,&argv);
-    loop = g_main_loop_new(NULL,FALSE);//创建主循环，在执行 g_main_loop_run后正式开始循环
+    loop = g_main_loop_new(NULL,FALSE);//创建主循环，在执行g_main_loop_run后正式开始循环，Glib里面实现的
 
     if(argc != 2)
     {
@@ -43,30 +43,33 @@ int main(int argc,char *argv[])
         return -1;
     }
     //创建管道和组件
-    pipeline = gst_pipeline_new("audio-player");
-    source = gst_element_factory_make("filesrc","file-source");
-    decoder = gst_element_factory_make("vorbisdec", "vorbis-decoder");
-    sink = gst_element_factory_make("autoaudiosink","audio-output");
+    pipeline = gst_pipeline_new("mp3-audio-player");
+    source = gst_element_factory_make("filesrc","mp3-file-source");//基于已有的factory新建element
+    decoder = gst_element_factory_make("mad","mp3-mad-decoder");
+    sink = gst_element_factory_make("autoaudiosink","mp3-audio-output");
 
     if(!pipeline||!source||!decoder||!sink) {
         g_printerr("One element could not be created.Exiting.\n");
         return -1;
     }
-    //设置 source的location 参数。即 文件地址.
+    //给source这个G_OBJECT设置location property
     g_object_set(G_OBJECT(source),"location",argv[1],NULL);
-    //得到 管道的消息总线
+    //获取Glib维护的pipeline的bus +1
     bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline));
-    //添加消息监视器
+    //给拿到bus添加callback
     gst_bus_add_watch(bus,bus_call,loop);
+    //释放bus实例
     gst_object_unref(bus);
-    //把组件添加到管道中.管道是一个特殊的组件，可以更好的让数据流动
+    //把source,decoder,sink添加到pipeline中，pipeline是一个特殊的组件
     gst_bin_add_many(GST_BIN(pipeline),source,decoder,sink,NULL);
-    //依次连接组件
+    //依次连接source,decoder,sink
     gst_element_link_many(source,decoder,sink,NULL);
+    //debug方式生成mp3_pipeline.dot
+    GST_DEBUG_BIN_TO_DOT_FILE((GstBin *)pipeline, GST_DEBUG_GRAPH_SHOW_ALL, "mp3_pipeline");
     //开始播放
     gst_element_set_state(pipeline,GST_STATE_PLAYING);
     g_print("Running\n");
-    //开始循环
+    //类似C++的run
     g_main_loop_run(loop);
     g_print("Returned,stopping playback\n");
     gst_element_set_state(pipeline,GST_STATE_NULL);

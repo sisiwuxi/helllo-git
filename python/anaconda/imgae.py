@@ -5,5 +5,5 @@ Spyder Editor
 This is a temporary script file.
 """
 from skimage import io
-img=io.imread('/home/sisiwu/Pictures/black.jpg')
+img=io.imread('/home/sisiwuxi/Pictures/1.png')
 io.imshow(img)
