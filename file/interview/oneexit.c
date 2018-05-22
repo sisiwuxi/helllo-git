@@ -18,22 +18,22 @@ int main(void)
 
 int fn1()
 {
-    printf( "next.\n" );
+    printf( "1next.\n" );
     return 0;
 }
 int fn2()
 {
-    printf( "executed.\n" );
+    printf( "2executed.\n" );
     return 0;
 }
 int fn3()
 {
-    printf( "is \n" );
+    printf( "3is \n" );
     return 0;
 }
 int fn4()
 {
-    printf( "This \n" );
+    printf( "4This \n" );
     return 0;
 }
 

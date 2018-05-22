@@ -9,6 +9,6 @@ void main()
 {
     a.x[0]=10;
     a.x[1]=1;
-    printf("%d",a.i);
+    printf("%d 0x%x",a.i, a.i);
 }
 
