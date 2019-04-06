@@ -88,7 +88,8 @@ Y_train=mnist.test.images.reshape((mnist.test.images.shape[0],28,28,1))
 Y_test=mnist.test.labels
 
 model=Sequential()
-model.add(Conv2D(32,3,input_shape=(28,28,1),activation='relu'))#kernels number=32,3 means 3*3 square
+#model.add(Conv2D(32,3,input_shape=(28,28,1),activation='relu'))#kernels number=32,3 means 3*3 square
+model.add(Conv2D(32,3,activation='relu'))#kernels number=32,3 means 3*3 square
 model.add(Conv2D(32,3,activation='relu'))#keras can match input_shape self-adaption, input_shape is not necessary
 model.add(MaxPooling2D(pool_size=2))
 model.add(Conv2D(64,3,activation='relu'))#After MaxPooling, featuremap decrease, so increase the kernel channel
