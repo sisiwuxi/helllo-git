@@ -1,0 +1,133 @@
+一、基础数据类型和变量
+1、整数
+2、浮点数，计算机世界里面是科学计数法保存的，会有四舍五入的误差
+3、字符串，文本
+4、bool：True and False, True or False, not True
+5、空值：None，没有意义，比如没有价格
+6、变量，动态语言所以类型不固定，不用指定类型是什么
+
+二、数据结构
+常用：
+1、list
+有顺序的比如list[0],list[-1]，可以往后退，+前进-后退都不能越界，
+list.后面tab自动提醒所有可能的操作比如list.insert，help(list.reverse)，list.pop()
+list可以插入不同的数据类型
+2、dict，
+coco={u"name":u"格格","age":"8","gender":"female"}
+前面加u表示unicode; ASCII表里面有常用的127个英文表;unicode可以把各国语言统一到一张表里面
+>>> name
+'格格'
+>>> name.encode("utf-8")#转换为utf-8
+b'\xe6\xa0\xbc\xe6\xa0\xbc'
+
+
+三、函数
+1
+pip install ipython --user
+2
+vi demo.py
+def add_x_y(x,y):
+    return x+y
+def add_x_yd(x,y=2):#支持默认值，新建用户可以默认为男
+    return x+y
+3
+在demo.py同路径下运行ipython;每次更新demo.py后需要退出重新ipython
+from demo import add_x_y
+add_x_y(1,2)
+3
+from demo import add_x_yd
+add_x_y(1)
+3
+
+4
+from demo import * #添加demo.py中所有的函数
+
+5
+支持可变长变量，**kwargs元组
+def show_all(*args,**kwargs):
+  print(args)
+  print(kwargs)
+  return kwargs
+其中*args对应了(1, 2, 9, 2222)被认为是一个list; **kwargs对应x=0,z=9被认为是一个字典dictionary
+from demo import *
+show_all(1,2,9,2222,x=0,z=9)                                                                                                                           
+(1, 2, 9, 2222)
+{'z': 9, 'x': 0}
+Out[6]: {'x': 0, 'z': 9}
+
+6
+list默认是排序的，dictionary默认不排序。
+排序原理是利用hash值避免重复。
+
+四
+1
+函数 < 模块 < 库
+模块：高于函数的一组组织方式。对一组函数的封装。
+函数不对外暴露。都提供了add，需要不同的命名空间。类似java的包，c++的namespace，可以隔离不同人之间的操作。
+2
+pip install requests
+setuptools
+3
+requests是HTTP协议库
+http://docs.python-requests.org/en/master/
+
+import requests
+r=requests.get('http://www.baidu.com')
+r
+r.content
+print(r.content)
+访问http://www.baidu.com后网址会返回r.content回来，浏览器根据HTTP协议解析这些内容。
+4
+怎么找合适的库
+搜索 python http lib 
+爬虫 scratch
+5
+API Application Programming Interface
+更强的一层封装
+
+
+五
+人脸识别
+1
+搜索 “人脸识别 api”得到微软/face++
+2
+注册face++的开发平台，https://console.faceplusplus.com.cn/login
+sisiwuxi@hotmail.com
+username:96289848
+wuxiphone
+15601956186
+3
+https://console.faceplusplus.com.cn/service/face/intro
+4
+一般用openCV或图像处理库，如果使用API
+用face++的API可以先点击Detect API/API文档/https://console.faceplusplus.com.cn/documents/4888373
+5
+创建API KEY
+https://console.faceplusplus.com.cn/app/apikey/create
+6
+按照API说明写face.py
+import requests
+
+def detect_face(image_url, api_key="CkI_sAAw0DshzGcb3kzwgGsN5WuAFxXR", api_secret="nUMNFBv-zFAv91Zyx7-eE25mIgRo_dM4", return_landmark=1, return_attributes="age"):
+  url="https://api-cn.faceplusplus.com/facepp/v3/detect"
+  params = {
+    "api_key": api_key,
+    "api_secret": api_secret,
+    "image_url": image_url,
+    "return_landmark": return_landmark,
+    "return_attributes": return_attributes
+  }
+  r = requests.post(url=url, params=params)
+  return r
+7
+运行
+ipython
+from face import detect_face
+url=u"一个人脸图片的地址"
+url=u"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555247505945&di=f4c27da243eaf3439ab8deca3077bf59&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201602%2F25%2F20160225001211_2YUdL.jpeg"
+r=detect_face(image_url=url)
+r#返回200表示成功，400错误，可以查看错误原因
+r.content
+
+
+
