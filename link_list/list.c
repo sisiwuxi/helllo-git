@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <malloc.h>
+
 #define MAXSIZE 100
 #define ERROR -1
 #define OK 0
+
 typedef int ElemType;
 
 typedef struct
