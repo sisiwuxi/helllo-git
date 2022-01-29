@@ -48,7 +48,8 @@ threshold = 0.5
 picked_boxes, picked_score = nms(bounding_boxes, confidence_score, threshold)
 print(picked_boxes,picked_score)
 import datetime
-with tf.Session() as sess:
+
+with tf.compat.v1.Session() as sess:
     for i in range(3):
         old=datetime.datetime.now()
         nms = tf.image.non_max_suppression(bounding_boxes,confidence_score,max_output_size=5,iou_threshold=threshold)
