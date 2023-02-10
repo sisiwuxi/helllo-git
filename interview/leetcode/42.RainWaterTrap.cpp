@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int trap(vector<int>& height) {
+    int RainWaterTrap(vector<int>& height) {
         int res = 0;
         int max_left = 0;
         int max_right = 0;

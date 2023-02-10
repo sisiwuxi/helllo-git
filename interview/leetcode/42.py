@@ -1,6 +1,6 @@
 import numpy as np
 
-def rain(heights):
+def RainWaterTrap(heights):
   h_len = len(heights)
   area = 0
   for i in range(1,h_len):
@@ -9,5 +9,6 @@ def rain(heights):
     area += min(left_max, right_max) - heights[i]
   return area
 
-heights = [0,1,0,2,1,0,1,3,2,1,2,1]
-print(rain(heights))
+if __name__ == '__main__':
+  heights = [0,1,0,2,1,0,1,3,2,1,2,1]
+  print(RainWaterTrap(heights))

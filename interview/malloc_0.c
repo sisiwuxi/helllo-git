@@ -5,7 +5,7 @@
 
 int alloc_memory(char *p , int size)
 {
-    printf("\nbefore malloc %p\n",p);
+    printf("\nbefore malloc p=%p\n",p);
     p = (char *)malloc(size);
     if(!p)
     {
@@ -14,7 +14,7 @@ int alloc_memory(char *p , int size)
     }
 
     //len of malloc(0)
-    printf("len of malloc(%d)  is  %d  ,the ture is %d\n",size,strlen(p),malloc_usable_size(p));
+    printf("len of malloc(%d)  len is %d  ,the ture is %d\n",size,strlen(p),malloc_usable_size(p));
 
     //the first member 
     printf("the first member of malloc(%d) is %p:%d \n",size,p,*p);
@@ -26,7 +26,7 @@ int alloc_memory(char *p , int size)
     //memcpy
     memset(p,'\0',12);
     memcpy(p,"01234567890123456789",12);
-    printf("after memcpy , the content is %s   len is %d  , the ture is %d \n",p,strlen(p),malloc_usable_size(p));
+    printf("after memcpy, the content is [%s]   len is %d  , the ture is %d \n",p,strlen(p),malloc_usable_size(p));
 
     free(p);
     p = NULL;
