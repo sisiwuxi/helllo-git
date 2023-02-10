@@ -10,7 +10,7 @@ print(a)
 y = x*4 + a
 print(y)
 plt.plot(x,y,'o')
-ply.show()
+plt.savefig("./linear.jpg")
 
 '''
 model = LinearRegression()

@@ -9,5 +9,5 @@ for a,b in zip(x,y):
 ax=plt.gca()
 ax.xaxis.set_ticks_position('top')
 ax.invert_yaxis()
-plt.show()
+# plt.show()
 plt.savefig('anchors.png')
